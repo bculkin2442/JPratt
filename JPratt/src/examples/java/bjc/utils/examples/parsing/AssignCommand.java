@@ -9,8 +9,8 @@ import bjc.utils.parserutils.pratt.commands.NonBinaryCommand;
 import bjc.utils.parserutils.pratt.tokens.StringToken;
 
 class AssignCommand extends NonBinaryCommand<String, String, TestContext> {
-	public AssignCommand() {
-		super(10);
+	public AssignCommand(int prec) {
+		super(prec);
 	}
 
 	@Override
