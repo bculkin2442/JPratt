@@ -25,6 +25,8 @@ final class Tokenizer implements Function<String, Token<String, String>> {
 			return litToken(strang);
 		} else if (ctx.scopes.top().containsKey(strang)) {
 			return new StringToken("(vref)", strang);
+		} else if(strang.matches("(?:[\\u00B2\\u00B3\\u00B9\\u2070]|[\\u2074-\\u2079])+")) {
+			return new StringToken("(superexp)", strang);
 		} else {
 			return new StringToken("(literal)", strang);
 		}
