@@ -46,7 +46,9 @@ public class PrattParserTest {
 		 */
 		Set<String> ops = new LinkedHashSet<>();
 
-		ops.addAll(Arrays.asList("->"));
+		ops.add("!!!");
+
+		ops.addAll(Arrays.asList("->", "=>"));
 		ops.add(":=");
 		ops.addAll(Arrays.asList("||", "&&"));
 		ops.addAll(Arrays.asList("<=", ">="));
@@ -73,7 +75,7 @@ public class PrattParserTest {
 
 		TwoLevelSplitter split = new TwoLevelSplitter();
 
-		split.addCompoundDelim("->");
+		split.addCompoundDelim("->", "=>");
 		split.addCompoundDelim(":=");
 		split.addCompoundDelim("||", "&&");
 		split.addCompoundDelim("<=", ">=");
@@ -84,6 +86,7 @@ public class PrattParserTest {
 		split.addSimpleDelim("+", "-", "*", "/");
 		split.addSimpleDelim("^", "!");
 
+		split.addSimpleMulti("!");
 		split.addSimpleMulti("\\(", "\\)");
 		split.addSimpleMulti("\\[", "\\]");
 		split.addSimpleMulti("\\{", "\\}");
@@ -185,6 +188,8 @@ public class PrattParserTest {
 		UnaryOperator<TestContext> idfun = id();
 
 		PrattParser<String, String, TestContext> parser = new PrattParser<>();
+
+		parser.addNonInitialCommand("!!!", postfix(0));
 
 		parser.addNonInitialCommand(":", infixNon(3));
 
