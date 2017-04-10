@@ -18,7 +18,7 @@ class AssignCommand extends NonBinaryCommand<String, String, TestContext> {
 			ParserContext<String, String, TestContext> ctx) throws ParserException {
 		Token<String, String> name = operand.getHead();
 
-		switch(name.getKey()) {
+		switch (name.getKey()) {
 		case "(literal)":
 		case "(vref)":
 			break;

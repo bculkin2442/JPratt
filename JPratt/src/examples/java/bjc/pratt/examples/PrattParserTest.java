@@ -95,7 +95,7 @@ public class PrattParserTest {
 		lo.addMultiDelimiters("(", ")");
 		lo.addMultiDelimiters("[", "]");
 		lo.addMultiDelimiters("{", "}");
-		
+
 		hi.compile();
 		lo.compile();
 
@@ -205,7 +205,8 @@ public class PrattParserTest {
 
 		parser.addNonInitialCommand(":", infixNon(3));
 
-		parser.addNonInitialCommand("if", ternary(5, 0, "else", litToken("cond"), false));
+		NonInitialCommand<String, String, TestContext> ifElse = ternary(5, 0, "else", litToken("cond"), false);
+		parser.addNonInitialCommand("if", ifElse);
 
 		parser.addNonInitialCommand(":=", new AssignCommand(10));
 
@@ -246,18 +247,27 @@ public class PrattParserTest {
 
 		parser.addNonInitialCommand(".", infixLeft(60));
 
-		parser.addNonInitialCommand("[", postCircumfix(60, 0, "]", litToken("idx")));
+		NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]", litToken("idx"));
+		parser.addNonInitialCommand("[", arrayIdx);
 
-		parser.addInitialCommand("if", preTernary(0, 0, 0, "then", "else", litToken("ifelse")));
+		InitialCommand<String, String, TestContext> ifThenElse = preTernary(0, 0, 0, "then", "else",
+				litToken("ifelse"));
+		parser.addInitialCommand("if", ifThenElse);
 
-		parser.addInitialCommand("(", grouping(0, ")", litToken("parens")));
+		InitialCommand<String, String, TestContext> parens = grouping(0, ")", litToken("parens"));
+		parser.addInitialCommand("(", parens);
 
-		parser.addInitialCommand("begin", delimited(0, ";", "end", litToken("block"), new BlockEnter(), idfun,
-				new BlockExit(), true));
+		InitialCommand<String, String, TestContext> scoper = delimited(0, ";", "end", litToken("block"),
+				new BlockEnter(), idfun, new BlockExit(), true);
+		parser.addInitialCommand("begin", scoper);
 
-		parser.addInitialCommand("[", delimited(0, ",", "]", litToken("array"), idfun, idfun, idfun, false));
+		InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"),
+				idfun, idfun, idfun, false);
+		parser.addInitialCommand("[", arrayLiteral);
 
-		parser.addInitialCommand("{", delimited(0, ",", "}", litToken("json"), idfun, idfun, idfun, false));
+		InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"),
+				idfun, idfun, idfun, false);
+		parser.addInitialCommand("{", jsonLiteral);
 
 		parser.addInitialCommand("case", unary(5));
 
