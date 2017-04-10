@@ -1,45 +1,45 @@
 package bjc.pratt.commands;
 
+import java.util.Set;
+
 import bjc.pratt.ParserContext;
 import bjc.pratt.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
-import java.util.Set;
-
 /**
  * Create a new chained operator.
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
  *                The key type of the tokens.
- * 
+ *
  * @param <V>
  *                The value type of the tokens.
- * 
+ *
  * @param <C>
  *                The state type of the parser.
  */
 public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
-	private Set<K> chainWith;
+	private final Set<K> chainWith;
 
-	private Token<K, V> chain;
+	private final Token<K, V> chain;
 
 	/**
 	 * Create a new chained operator.
-	 * 
+	 *
 	 * @param precedence
 	 *                The precedence of this operator.
-	 * 
+	 *
 	 * @param chainSet
 	 *                The operators to chain with.
-	 * 
+	 *
 	 * @param chainMarker
 	 *                The token to use as the node in the AST.
 	 */
-	public ChainCommand(int precedence, Set<K> chainSet, Token<K, V> chainMarker) {
+	public ChainCommand(final int precedence, final Set<K> chainSet, final Token<K, V> chainMarker) {
 		super(precedence);
 
 		chainWith = chainSet;
@@ -47,17 +47,18 @@ public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(ITree<Token<K, V>> operand, Token<K, V> operator, ParserContext<K, V, C> ctx)
-			throws ParserException {
-		ITree<Token<K, V>> tree = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state, false);
+	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand, final Token<K, V> operator,
+			final ParserContext<K, V, C> ctx) throws ParserException {
+		final ITree<Token<K, V>> tree = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state,
+				false);
 
-		ITree<Token<K, V>> res = new Tree<>(operator, operand, tree);
+		final ITree<Token<K, V>> res = new Tree<>(operator, operand, tree);
 
 		if (chainWith.contains(ctx.tokens.current().getKey())) {
-			Token<K, V> tok = ctx.tokens.current();
+			final Token<K, V> tok = ctx.tokens.current();
 			ctx.tokens.next();
 
-			ITree<Token<K, V>> other = denote(tree, tok,
+			final ITree<Token<K, V>> other = denote(tree, tok,
 					new ParserContext<>(ctx.tokens, ctx.parse, ctx.state));
 
 			return new Tree<>(chain, res, other);

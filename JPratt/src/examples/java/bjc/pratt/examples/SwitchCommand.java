@@ -10,11 +10,11 @@ import bjc.utils.parserutils.ParserException;
 
 class SwitchCommand implements InitialCommand<String, String, TestContext> {
 	@Override
-	public ITree<Token<String, String>> denote(Token<String, String> operator,
-			ParserContext<String, String, TestContext> ctx) throws ParserException {
-		ITree<Token<String, String>> object = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
+	public ITree<Token<String, String>> denote(final Token<String, String> operator,
+			final ParserContext<String, String, TestContext> ctx) throws ParserException {
+		final ITree<Token<String, String>> object = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 
-		ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
+		final ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 
 		return new Tree<>(new StringToken("switch", "switch"), object, body);
 	}

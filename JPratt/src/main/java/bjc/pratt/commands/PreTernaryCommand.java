@@ -9,43 +9,43 @@ import bjc.utils.parserutils.ParserException;
 
 /**
  * A prefix ternary operator, like an if/then/else group.
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
  *                The key type of the tokens.
- * 
+ *
  * @param <V>
  *                The value type of the tokens.
- * 
+ *
  * @param <C>
  *                The state type of the parser.
  */
 public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
-	private Token<K, V> trm;
+	private final Token<K, V> trm;
 
-	private ParseBlock<K, V, C> condBlock;
+	private final ParseBlock<K, V, C> condBlock;
 
-	private ParseBlock<K, V, C>	opblock1;
-	private ParseBlock<K, V, C>	opblock2;
+	private final ParseBlock<K, V, C>	opblock1;
+	private final ParseBlock<K, V, C>	opblock2;
 
 	/**
 	 * Create a new ternary statement.
-	 * 
+	 *
 	 * @param cond
 	 *                The block for handling the condition.
-	 * 
+	 *
 	 * @param op1
 	 *                The block for handling the first operator.
-	 * 
+	 *
 	 * @param op2
 	 *                The block for handling the second operator.
-	 * 
+	 *
 	 * @param term
 	 *                The token to use as the node for the AST.
 	 */
-	public PreTernaryCommand(ParseBlock<K, V, C> cond, ParseBlock<K, V, C> op1, ParseBlock<K, V, C> op2,
-			Token<K, V> term) {
+	public PreTernaryCommand(final ParseBlock<K, V, C> cond, final ParseBlock<K, V, C> op1,
+			final ParseBlock<K, V, C> op2, final Token<K, V> term) {
 		super();
 
 		if (cond == null)
@@ -62,13 +62,13 @@ public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> 
 	}
 
 	@Override
-	protected ITree<Token<K, V>> intNullDenotation(Token<K, V> operator, ParserContext<K, V, C> ctx)
+	protected ITree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
-		ITree<Token<K, V>> cond = condBlock.parse(ctx);
+		final ITree<Token<K, V>> cond = condBlock.parse(ctx);
 
-		ITree<Token<K, V>> op1 = opblock1.parse(ctx);
+		final ITree<Token<K, V>> op1 = opblock1.parse(ctx);
 
-		ITree<Token<K, V>> op2 = opblock2.parse(ctx);
+		final ITree<Token<K, V>> op2 = opblock2.parse(ctx);
 
 		return new Tree<>(trm, cond, op1, op2);
 	}

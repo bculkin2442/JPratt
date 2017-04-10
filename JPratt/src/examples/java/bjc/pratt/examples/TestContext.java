@@ -9,7 +9,7 @@ import bjc.utils.esodata.Stack;
 
 /**
  * Simple context for the parser.
- * 
+ *
  * @author EVE
  *
  */

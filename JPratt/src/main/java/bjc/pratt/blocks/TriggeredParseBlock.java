@@ -10,7 +10,7 @@ import bjc.utils.parserutils.ParserException;
 
 /**
  * A parse block that can adjust the state before handling its context.
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
@@ -21,36 +21,37 @@ import bjc.utils.parserutils.ParserException;
  *                The state type of the parser.
  */
 public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
-	private UnaryOperator<C>	onEntr;
-	private UnaryOperator<C>	onExt;
+	private final UnaryOperator<C>	onEntr;
+	private final UnaryOperator<C>	onExt;
 
-	private ParseBlock<K, V, C> sourc;
+	private final ParseBlock<K, V, C> sourc;
 
 	/**
 	 * Create a new triggered parse block.
-	 * 
+	 *
 	 * @param onEnter
 	 *                The action to fire before parsing the block.
-	 * 
+	 *
 	 * @param onExit
 	 *                The action to fire after parsing the block.
-	 * 
+	 *
 	 * @param source
 	 *                The block to use for parsing.
 	 */
-	public TriggeredParseBlock(UnaryOperator<C> onEnter, UnaryOperator<C> onExit, ParseBlock<K, V, C> source) {
+	public TriggeredParseBlock(final UnaryOperator<C> onEnter, final UnaryOperator<C> onExit,
+			final ParseBlock<K, V, C> source) {
 		onEntr = onEnter;
 		onExt = onExit;
 		sourc = source;
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		C newState = onEntr.apply(ctx.state);
+	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final C newState = onEntr.apply(ctx.state);
 
-		ParserContext<K, V, C> newCtx = new ParserContext<>(ctx.tokens, ctx.parse, newState);
+		final ParserContext<K, V, C> newCtx = new ParserContext<>(ctx.tokens, ctx.parse, newState);
 
-		ITree<Token<K, V>> res = sourc.parse(newCtx);
+		final ITree<Token<K, V>> res = sourc.parse(newCtx);
 
 		ctx.state = onExt.apply(newState);
 

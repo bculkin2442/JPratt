@@ -2,7 +2,7 @@ package bjc.pratt.commands;
 
 /**
  * A right-associative binary operator.
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
@@ -15,11 +15,11 @@ package bjc.pratt.commands;
 public class RightBinaryCommand<K, V, C> extends BinaryCommand<K, V, C> {
 	/**
 	 * Create a new right-associative operator.
-	 * 
+	 *
 	 * @param precedence
 	 *                The precedence of the operator.
 	 */
-	public RightBinaryCommand(int precedence) {
+	public RightBinaryCommand(final int precedence) {
 		super(precedence);
 	}
 

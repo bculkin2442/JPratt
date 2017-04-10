@@ -11,11 +11,11 @@ import bjc.utils.parserutils.ParserException;
 class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 
 	@Override
-	protected ITree<Token<String, String>> intNullDenotation(Token<String, String> operator,
-			ParserContext<String, String, TestContext> ctx) throws ParserException {
-		Token<String, String> name = ctx.tokens.current();
+	protected ITree<Token<String, String>> intNullDenotation(final Token<String, String> operator,
+			final ParserContext<String, String, TestContext> ctx) throws ParserException {
+		final Token<String, String> name = ctx.tokens.current();
 
-		switch(name.getKey()) {
+		switch (name.getKey()) {
 		case "(literal)":
 		case "(vref)":
 			ctx.tokens.next();
@@ -26,7 +26,7 @@ class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 
 		ctx.tokens.expect("=");
 
-		ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
+		final ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 
 		ctx.state.scopes.top().putKey(name.getValue(), body);
 

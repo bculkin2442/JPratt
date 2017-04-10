@@ -9,14 +9,15 @@ import bjc.utils.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 class AssignCommand extends NonBinaryCommand<String, String, TestContext> {
-	public AssignCommand(int prec) {
+	public AssignCommand(final int prec) {
 		super(prec);
 	}
 
 	@Override
-	public ITree<Token<String, String>> denote(ITree<Token<String, String>> operand, Token<String, String> operator,
-			ParserContext<String, String, TestContext> ctx) throws ParserException {
-		Token<String, String> name = operand.getHead();
+	public ITree<Token<String, String>> denote(final ITree<Token<String, String>> operand,
+			final Token<String, String> operator, final ParserContext<String, String, TestContext> ctx)
+			throws ParserException {
+		final Token<String, String> name = operand.getHead();
 
 		switch (name.getKey()) {
 		case "(literal)":
@@ -26,7 +27,7 @@ class AssignCommand extends NonBinaryCommand<String, String, TestContext> {
 			throw new ParserException("Variable name must be simple");
 		}
 
-		ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
+		final ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 
 		ctx.state.scopes.top().putKey(name.getValue(), body);
 
