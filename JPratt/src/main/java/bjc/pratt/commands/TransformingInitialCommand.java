@@ -23,9 +23,9 @@ import bjc.utils.parserutils.ParserException;
  *                The state type of the parser.
  */
 public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
-	private InitialCommand<K, V, C> internal;
+	private InitialCommand<K, V, C> internl;
 
-	private UnaryOperator<ITree<Token<K, V>>> transform;
+	private UnaryOperator<ITree<Token<K, V>>> transfrm;
 
 	/**
 	 * Create a new transforming initial command.
@@ -39,14 +39,14 @@ public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<
 	public TransformingInitialCommand(InitialCommand<K, V, C> internal,
 			UnaryOperator<ITree<Token<K, V>>> transform) {
 		super();
-		this.internal = internal;
-		this.transform = transform;
+		internl = internal;
+		transfrm = transform;
 	}
 
 	@Override
 	protected ITree<Token<K, V>> intNullDenotation(Token<K, V> operator, ParserContext<K, V, C> ctx)
 			throws ParserException {
-		return transform.apply(internal.denote(operator, ctx));
+		return transfrm.apply(internl.denote(operator, ctx));
 	}
 
 }

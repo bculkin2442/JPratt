@@ -61,9 +61,9 @@ public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 					new ParserContext<>(ctx.tokens, ctx.parse, ctx.state));
 
 			return new Tree<>(chain, res, other);
-		} else {
-			return res;
 		}
+
+		return res;
 	}
 
 	@Override

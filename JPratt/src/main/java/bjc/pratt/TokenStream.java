@@ -69,9 +69,9 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 			String expectedList = StringUtils.toEnglishList(expectedKeys.toArray(), false);
 
 			throw new ExpectationException("One of '" + expectedList + "' was expected, not " + curKey);
-		} else {
-			next();
 		}
+
+		next();
 	}
 
 	/**
@@ -88,7 +88,15 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	public final void expect(K... expectedKeys) throws ExpectationException {
 		expect(new HashSet<>(Arrays.asList(expectedKeys)));
 	}
-	
+
+	/**
+	 * Check whether the head token is a certain type.
+	 * 
+	 * @param val
+	 *                The type to check for.
+	 * 
+	 * @return Whether or not the head token is of that type.
+	 */
 	public boolean headIs(K val) {
 		return current().getKey().equals(val);
 	}

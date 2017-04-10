@@ -21,10 +21,10 @@ import bjc.utils.parserutils.ParserException;
  *                The state type of the parser.
  */
 public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
-	private UnaryOperator<C>	onEnter;
-	private UnaryOperator<C>	onExit;
+	private UnaryOperator<C>	onEntr;
+	private UnaryOperator<C>	onExt;
 
-	private ParseBlock<K, V, C> source;
+	private ParseBlock<K, V, C> sourc;
 
 	/**
 	 * Create a new triggered parse block.
@@ -39,21 +39,20 @@ public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	 *                The block to use for parsing.
 	 */
 	public TriggeredParseBlock(UnaryOperator<C> onEnter, UnaryOperator<C> onExit, ParseBlock<K, V, C> source) {
-		super();
-		this.onEnter = onEnter;
-		this.onExit = onExit;
-		this.source = source;
+		onEntr = onEnter;
+		onExt = onExit;
+		sourc = source;
 	}
 
 	@Override
 	public ITree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		C newState = onEnter.apply(ctx.state);
+		C newState = onEntr.apply(ctx.state);
 
 		ParserContext<K, V, C> newCtx = new ParserContext<>(ctx.tokens, ctx.parse, newState);
 
-		ITree<Token<K, V>> res = source.parse(newCtx);
+		ITree<Token<K, V>> res = sourc.parse(newCtx);
 
-		ctx.state = onExit.apply(newState);
+		ctx.state = onExt.apply(newState);
 
 		return res;
 	}

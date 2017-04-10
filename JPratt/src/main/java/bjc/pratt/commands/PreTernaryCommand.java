@@ -22,7 +22,7 @@ import bjc.utils.parserutils.ParserException;
  *                The state type of the parser.
  */
 public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
-	private Token<K, V> term;
+	private Token<K, V> trm;
 
 	private ParseBlock<K, V, C> condBlock;
 
@@ -54,11 +54,11 @@ public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> 
 			throw new NullPointerException("Op block #1 must not be null");
 		else if (op2 == null) throw new NullPointerException("Op block #2 must not be null");
 
-		this.condBlock = cond;
-		this.opblock1 = op1;
-		this.opblock2 = op2;
+		condBlock = cond;
+		opblock1 = op1;
+		opblock2 = op2;
 
-		this.term = term;
+		trm = term;
 	}
 
 	@Override
@@ -70,6 +70,6 @@ public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> 
 
 		ITree<Token<K, V>> op2 = opblock2.parse(ctx);
 
-		return new Tree<>(term, cond, op1, op2);
+		return new Tree<>(trm, cond, op1, op2);
 	}
 }

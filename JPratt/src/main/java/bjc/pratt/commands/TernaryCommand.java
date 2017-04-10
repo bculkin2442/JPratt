@@ -70,8 +70,8 @@ public class TernaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	public int nextBinding() {
 		if (nonassoc) {
 			return leftBinding() - 1;
-		} else {
-			return leftBinding();
 		}
+
+		return leftBinding();
 	}
 }

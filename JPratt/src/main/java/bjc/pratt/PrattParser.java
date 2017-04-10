@@ -174,7 +174,16 @@ public class PrattParser<K, V, C> {
 	}
 
 	/**
-	 * Add a dependant non-initial command to this parser.
+	 * Add a dependent non-initial command to this parser.
+	 * 
+	 * @param dependant
+	 *                The dependent that precedes the command.
+	 * 
+	 * @param marker
+	 *                The token key that marks the command.
+	 * 
+	 * @param comm
+	 *                The command.
 	 */
 	public void addDependantCommand(K dependant, K marker, NonInitialCommand<K, V, C> comm) {
 		if (dependantLeftCommands.containsKey(dependant)) {

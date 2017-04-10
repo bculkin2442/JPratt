@@ -30,18 +30,18 @@ public class ParserContext<K, V, C> {
 	/**
 	 * Create a new parser context.
 	 * 
-	 * @param tokens
+	 * @param tokns
 	 *                The source of tokens.
 	 * 
-	 * @param parse
+	 * @param prse
 	 *                The parser to call for sub expressions.
 	 * 
-	 * @param state
+	 * @param stte
 	 *                Any state needing to be kept during parsing.
 	 */
-	public ParserContext(TokenStream<K, V> tokens, PrattParser<K, V, C> parse, C state) {
-		this.tokens = tokens;
-		this.parse = parse;
-		this.state = state;
+	public ParserContext(TokenStream<K, V> tokns, PrattParser<K, V, C> prse, C stte) {
+		this.tokens = tokns;
+		this.parse = prse;
+		this.state = stte;
 	}
 }
