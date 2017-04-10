@@ -48,11 +48,14 @@ public class PrattParserTest {
 		 */
 		Set<String> ops = new LinkedHashSet<>();
 
-		ops.addAll(Arrays.asList("->"));
+		ops.add("!!!");
+
+		ops.addAll(Arrays.asList("->", "=>"));
 		ops.add(":=");
 		ops.addAll(Arrays.asList("||", "&&"));
 		ops.addAll(Arrays.asList("<=", ">="));
 
+		ops.addAll(Arrays.asList("±"));
 		ops.addAll(Arrays.asList(".", ",", ";", ":"));
 		ops.addAll(Arrays.asList("=", "<", ">"));
 		ops.addAll(Arrays.asList("+", "-", "*", "/"));
@@ -82,15 +85,17 @@ public class PrattParserTest {
 		hi.addSimpleDelimiters("||", "&&");
 		hi.addSimpleDelimiters("<=", ">=");
 
+		lo.addSimpleDelimiters("±");
 		lo.addSimpleDelimiters(".", ",", ";", ":");
 		lo.addSimpleDelimiters("=", "<", ">");
 		lo.addSimpleDelimiters("+", "-", "*", "/");
-		lo.addSimpleDelimiters("^", "!");
+		lo.addSimpleDelimiters("^");
 
-		lo.addMultiDelimiters("\\(", "\\)");
-		lo.addMultiDelimiters("\\[", "\\]");
-		lo.addMultiDelimiters("\\{", "\\}");
-
+		lo.addMultiDelimiters("!");
+		lo.addMultiDelimiters("(", ")");
+		lo.addMultiDelimiters("[", "]");
+		lo.addMultiDelimiters("{", "}");
+		
 		hi.compile();
 		lo.compile();
 
@@ -196,6 +201,8 @@ public class PrattParserTest {
 
 		PrattParser<String, String, TestContext> parser = new PrattParser<>();
 
+		parser.addNonInitialCommand("!!!", postfix(0));
+
 		parser.addNonInitialCommand(":", infixNon(3));
 
 		parser.addNonInitialCommand("if", ternary(5, 0, "else", litToken("cond"), false));
@@ -222,6 +229,7 @@ public class PrattParserTest {
 		NonInitialCommand<String, String, TestContext> addSub = infixLeft(20);
 		parser.addNonInitialCommand("+", addSub);
 		parser.addNonInitialCommand("-", addSub);
+		parser.addNonInitialCommand("±", addSub);
 
 		NonInitialCommand<String, String, TestContext> mulDiv = infixLeft(30);
 		parser.addNonInitialCommand("*", mulDiv);
@@ -232,6 +240,9 @@ public class PrattParserTest {
 		NonInitialCommand<String, String, TestContext> expon = infixRight(50);
 		parser.addNonInitialCommand("^", expon);
 		parser.addNonInitialCommand("root", expon);
+
+		NonInitialCommand<String, String, TestContext> superexpon = postfix(50);
+		parser.addNonInitialCommand("(superexp)", superexpon);
 
 		parser.addNonInitialCommand(".", infixLeft(60));
 
@@ -251,6 +262,10 @@ public class PrattParserTest {
 		parser.addInitialCommand("case", unary(5));
 
 		parser.addInitialCommand("-", unary(30));
+
+		InitialCommand<String, String, TestContext> root = unary(50);
+		parser.addInitialCommand("sqrt", root);
+		parser.addInitialCommand("cbrt", root);
 
 		InitialCommand<String, String, TestContext> leaf = leaf();
 		parser.addInitialCommand("(literal)", leaf);
