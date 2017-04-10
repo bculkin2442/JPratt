@@ -7,21 +7,12 @@ import bjc.pratt.Token;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.utils.data.ITree;
-import bjc.utils.data.TransformIterator;
 import bjc.utils.parserutils.ParserException;
-import bjc.utils.parserutils.splitterv2.ChainTokenSplitter;
-import bjc.utils.parserutils.splitterv2.ConfigurableTokenSplitter;
-import bjc.utils.parserutils.splitterv2.ExcludingTokenSplitter;
-import bjc.utils.parserutils.splitterv2.TokenSplitter;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.function.UnaryOperator;
 
 import static bjc.pratt.commands.InitialCommands.*;
@@ -40,74 +31,12 @@ public class PrattParserTest {
 	 * Main method.
 	 * 
 	 * @param args
-	 *                Unused CLI arguments.
+	 *            Unused CLI arguments.
 	 */
 	public static void main(String[] args) {
-		/*
-		 * Use a linked hash set to preserve insertion order.
-		 */
-		Set<String> ops = new LinkedHashSet<>();
-
-		ops.add("!!!");
-
-		ops.addAll(Arrays.asList("->", "=>"));
-		ops.add(":=");
-		ops.addAll(Arrays.asList("||", "&&"));
-		ops.addAll(Arrays.asList("<=", ">="));
-
-		ops.addAll(Arrays.asList("±"));
-		ops.addAll(Arrays.asList(".", ",", ";", ":"));
-		ops.addAll(Arrays.asList("=", "<", ">"));
-		ops.addAll(Arrays.asList("+", "-", "*", "/"));
-		ops.addAll(Arrays.asList("^", "!"));
-		ops.addAll(Arrays.asList("(", ")"));
-		ops.addAll(Arrays.asList("[", "]"));
-		ops.addAll(Arrays.asList("{", "}"));
-
-		/*
-		 * Reserved words that represent themselves, not literals.
-		 */
-		Set<String> reserved = new LinkedHashSet<>();
-		reserved.addAll(Arrays.asList("if", "then", "else"));
-		reserved.addAll(Arrays.asList("and", "or"));
-		reserved.addAll(Arrays.asList("begin", "end"));
-		reserved.addAll(Arrays.asList("switch", "case"));
-		reserved.addAll(Arrays.asList("sqrt", "cbrt", "root"));
-		reserved.add("var");
-
-		ChainTokenSplitter nsplit = new ChainTokenSplitter();
-
-		ConfigurableTokenSplitter hi = new ConfigurableTokenSplitter(true);
-		ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
-
-		hi.addSimpleDelimiters("->");
-		hi.addSimpleDelimiters(":=");
-		hi.addSimpleDelimiters("||", "&&");
-		hi.addSimpleDelimiters("<=", ">=");
-
-		lo.addSimpleDelimiters("±");
-		lo.addSimpleDelimiters(".", ",", ";", ":");
-		lo.addSimpleDelimiters("=", "<", ">");
-		lo.addSimpleDelimiters("+", "-", "*", "/");
-		lo.addSimpleDelimiters("^");
-
-		lo.addMultiDelimiters("!");
-		lo.addMultiDelimiters("(", ")");
-		lo.addMultiDelimiters("[", "]");
-		lo.addMultiDelimiters("{", "}");
-
-		hi.compile();
-		lo.compile();
-
-		nsplit.appendSplitters(hi, lo);
-
-		ExcludingTokenSplitter excluder = new ExcludingTokenSplitter(nsplit);
-
-		excluder.addLiteralExclusions(reserved.toArray(new String[0]));
+		InputState state = InputState.createState();
 
 		PrattParser<String, String, TestContext> parser = createParser();
-
-		TestContext ctx = new TestContext();
 
 		Scanner scn = new Scanner(System.in);
 
@@ -115,7 +44,9 @@ public class PrattParserTest {
 		String ln = scn.nextLine();
 
 		while (!ln.trim().equals("")) {
-			Iterator<Token<String, String>> tokens = preprocessInput(ops, excluder, ln, reserved, ctx);
+			state.ln = ln;
+
+			Iterator<Token<String, String>> tokens = state.preprocessInput();
 
 			try {
 				StringTokenStream tokenStream = new StringTokenStream(tokens);
@@ -125,7 +56,7 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				ITree<Token<String, String>> tree = parser.parseExpression(0, tokenStream, ctx, true);
+				ITree<Token<String, String>> tree = parser.parseExpression(0, tokenStream, state.ctx, true);
 
 				if (!tokenStream.headIs("(end)")) {
 					System.out.println("\nMultiple expressions on line");
@@ -141,45 +72,9 @@ public class PrattParserTest {
 		}
 
 		System.out.println();
-		System.out.println("\nContext is: " + ctx);
+		System.out.println("\nContext is: " + state.ctx);
 
 		scn.close();
-	}
-
-	private static Iterator<Token<String, String>> preprocessInput(Set<String> ops, TokenSplitter split, String ln,
-			Set<String> reserved, TestContext ctx) {
-		String[] rawTokens = ln.split("\\s+");
-
-		List<String> splitTokens = new LinkedList<>();
-
-		for (String raw : rawTokens) {
-			boolean doSplit = false;
-
-			for (String op : ops) {
-				if (raw.contains(op)) {
-					doSplit = true;
-					break;
-				}
-			}
-
-			if (doSplit) {
-				String[] strangs = split.split(raw).toArray(new String[0]);
-
-				splitTokens.addAll(Arrays.asList(strangs));
-			} else {
-				splitTokens.add(raw);
-			}
-		}
-
-		System.out.println("\nSplit string: " + splitTokens);
-
-		Iterator<String> source = splitTokens.iterator();
-
-		Tokenizer tokenzer = new Tokenizer(ops, reserved, ctx);
-
-		Iterator<Token<String, String>> tokens = new TransformIterator<>(source, tokenzer);
-
-		return tokens;
 	}
 
 	private static PrattParser<String, String, TestContext> createParser() {
@@ -230,7 +125,7 @@ public class PrattParserTest {
 		NonInitialCommand<String, String, TestContext> addSub = infixLeft(20);
 		parser.addNonInitialCommand("+", addSub);
 		parser.addNonInitialCommand("-", addSub);
-		parser.addNonInitialCommand("±", addSub);
+		parser.addNonInitialCommand("Â±", addSub);
 
 		NonInitialCommand<String, String, TestContext> mulDiv = infixLeft(30);
 		parser.addNonInitialCommand("*", mulDiv);
@@ -261,12 +156,12 @@ public class PrattParserTest {
 				new BlockEnter(), idfun, new BlockExit(), true);
 		parser.addInitialCommand("begin", scoper);
 
-		InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"),
-				idfun, idfun, idfun, false);
+		InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"), idfun,
+				idfun, idfun, false);
 		parser.addInitialCommand("[", arrayLiteral);
 
-		InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"),
-				idfun, idfun, idfun, false);
+		InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"), idfun, idfun,
+				idfun, false);
 		parser.addInitialCommand("{", jsonLiteral);
 
 		parser.addInitialCommand("case", unary(5));
@@ -279,7 +174,6 @@ public class PrattParserTest {
 
 		InitialCommand<String, String, TestContext> leaf = leaf();
 		parser.addInitialCommand("(literal)", leaf);
-		parser.addInitialCommand("(vref)", leaf);
 
 		parser.addInitialCommand("var", new VarCommand());
 
