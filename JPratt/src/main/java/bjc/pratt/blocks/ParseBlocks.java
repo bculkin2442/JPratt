@@ -1,11 +1,15 @@
 package bjc.pratt.blocks;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParseBlock;
+import bjc.pratt.PrattParser;
 import bjc.pratt.Token;
+import bjc.pratt.TokenStream;
 import bjc.utils.data.ITree;
+import bjc.utils.funcutils.Isomorphism;
 
 /**
  * Utility class for creating common implementations of {@link ParseBlock}
@@ -14,6 +18,10 @@ import bjc.utils.data.ITree;
  *
  */
 public class ParseBlocks {
+	/*
+	 * Grammar parse blocks are complex enough to not get a builder method.
+	 */
+
 	/**
 	 * Create a new repeating parse block.
 	 *
@@ -21,17 +29,17 @@ public class ParseBlocks {
 	 *                The parse block to repeat.
 	 *
 	 * @param delim
-	 *                The token type that seperates repetitions.
+	 *                The token type that separates repetitions.
 	 *
 	 * @param term
-	 *                The token type that terminates repititions.
+	 *                The token type that terminates repetitions.
 	 *
 	 * @param mark
 	 *                The token to use as the node in the AST.
 	 *
 	 * @param action
 	 *                The action to perform on the state after every
-	 *                repitition.
+	 *                repetition.
 	 *
 	 * @return A configured repeating parse block.
 	 */
@@ -79,6 +87,6 @@ public class ParseBlocks {
 	 */
 	public static <K, V, C> ParseBlock<K, V, C> simple(final int precedence, final K terminator,
 			final Predicate<ITree<Token<K, V>>> validator) {
-		return new SimpleParseBlock<>(precedence, terminator, validator);
+		return new SimpleParseBlock<>(precedence, validator, terminator);
 	}
 }

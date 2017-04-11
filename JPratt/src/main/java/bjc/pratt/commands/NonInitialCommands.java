@@ -104,7 +104,7 @@ public class NonInitialCommands {
 	 */
 	public static <K, V, C> NonInitialCommand<K, V, C> postCircumfix(final int precedence,
 			final int insidePrecedence, final K closer, final Token<K, V> marker) {
-		final ParseBlock<K, V, C> innerBlock = new SimpleParseBlock<>(insidePrecedence, closer, null);
+		final ParseBlock<K, V, C> innerBlock = new SimpleParseBlock<>(insidePrecedence, null, closer);
 
 		return new PostCircumfixCommand<>(precedence, innerBlock, marker);
 	}
@@ -134,7 +134,7 @@ public class NonInitialCommands {
 	 */
 	public static <K, V, C> NonInitialCommand<K, V, C> ternary(final int precedence, final int insidePrecedence,
 			final K closer, final Token<K, V> marker, final boolean nonassoc) {
-		final ParseBlock<K, V, C> innerBlock = new SimpleParseBlock<>(insidePrecedence, closer, null);
+		final ParseBlock<K, V, C> innerBlock = new SimpleParseBlock<>(insidePrecedence, null, closer);
 
 		return new TernaryCommand<>(precedence, innerBlock, marker, nonassoc);
 	}

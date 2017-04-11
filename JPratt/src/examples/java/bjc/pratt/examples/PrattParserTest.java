@@ -65,7 +65,7 @@ public class PrattParserTest {
 		ops.addAll(Arrays.asList("||", "&&"));
 		ops.addAll(Arrays.asList("<=", ">="));
 
-		ops.addAll(Arrays.asList("�"));
+		ops.addAll(Arrays.asList("\u00B1")); // Unicode plus/minus
 		ops.addAll(Arrays.asList(".", ",", ";", ":"));
 		ops.addAll(Arrays.asList("=", "<", ">"));
 		ops.addAll(Arrays.asList("+", "-", "*", "/"));
@@ -95,7 +95,7 @@ public class PrattParserTest {
 		hi.addSimpleDelimiters("||", "&&");
 		hi.addSimpleDelimiters("<=", ">=");
 
-		lo.addSimpleDelimiters("�");
+		lo.addSimpleDelimiters("\u00B1"); // Unicode plus/minus
 		lo.addSimpleDelimiters(".", ",", ";", ":");
 		lo.addSimpleDelimiters("=", "<", ">");
 		lo.addSimpleDelimiters("+", "-", "*", "/");
@@ -243,7 +243,7 @@ public class PrattParserTest {
 		final NonInitialCommand<String, String, TestContext> addSub = infixLeft(20);
 		parser.addNonInitialCommand("+", addSub);
 		parser.addNonInitialCommand("-", addSub);
-		parser.addNonInitialCommand("�", addSub);
+		parser.addNonInitialCommand("\u00B1", addSub); // Unicode plus/minus
 
 		final NonInitialCommand<String, String, TestContext> mulDiv = infixLeft(30);
 		parser.addNonInitialCommand("*", mulDiv);
@@ -293,7 +293,6 @@ public class PrattParserTest {
 
 		final InitialCommand<String, String, TestContext> leaf = leaf();
 		parser.addInitialCommand("(literal)", leaf);
-		parser.addInitialCommand("(vref)", leaf);
 
 		parser.addInitialCommand("var", new VarCommand());
 

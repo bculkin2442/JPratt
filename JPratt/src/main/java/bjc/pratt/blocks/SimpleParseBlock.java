@@ -34,16 +34,14 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	 *
 	 * @param precedence
 	 *                The precedence of this block.
-	 *
+	 * @param validator
+	 *                The predicate to apply to blocks.
 	 * @param terminator
 	 *                The token type that terminates the block. If this is
 	 *                null, don't check for a terminator.
-	 *
-	 * @param validator
-	 *                The predicate to apply to blocks.
 	 */
-	public SimpleParseBlock(final int precedence, final K terminator,
-			final Predicate<ITree<Token<K, V>>> validator) {
+	public SimpleParseBlock(final int precedence, final Predicate<ITree<Token<K, V>>> validator,
+			final K terminator) {
 		if (precedence < 0) throw new IllegalArgumentException("Precedence must be non-negative");
 
 		pow = precedence;
@@ -91,10 +89,5 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 		} else if (!term.equals(other.term)) return false;
 
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("ParseBlock [pow=%s, term='%s']", pow, term);
 	}
 }
