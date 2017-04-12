@@ -52,7 +52,7 @@ public class PrattParserTest {
 	 * Main method.
 	 *
 	 * @param args
-	 *                Unused CLI arguments.
+	 *            Unused CLI arguments.
 	 */
 	public static void main(final String[] args) {
 		/*
@@ -88,9 +88,6 @@ public class PrattParserTest {
 		reserved.addAll(Arrays.asList("try", "catch", "finally"));
 		reserved.add("var");
 
-		final ChainTokenSplitter nsplit = new ChainTokenSplitter();
-
-		final ConfigurableTokenSplitter hi = new ConfigurableTokenSplitter(true);
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
 
 		lo.addSimpleDelimiters("->");
@@ -109,10 +106,7 @@ public class PrattParserTest {
 		lo.addMultiDelimiters("[", "]");
 		lo.addMultiDelimiters("{", "}");
 
-		//hi.compile();
 		lo.compile();
-
-		nsplit.appendSplitters(hi, lo);
 
 		final ExcludingTokenSplitter excluder = new ExcludingTokenSplitter(lo);
 
@@ -130,8 +124,7 @@ public class PrattParserTest {
 		String ln = scn.nextLine();
 
 		while (!ln.trim().equals("")) {
-			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved,
-					ctx);
+			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved, ctx);
 
 			try {
 				final StringTokenStream tokenStream = new StringTokenStream(tokens);
@@ -141,8 +134,7 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				final ITree<Token<String, String>> tree = parser.parseExpression(0, tokenStream, ctx,
-						true);
+				final ITree<Token<String, String>> tree = parser.parseExpression(0, tokenStream, ctx, true);
 
 				if (!tokenStream.headIs("(end)")) {
 					System.out.println("\nMultiple expressions on line");
@@ -170,7 +162,8 @@ public class PrattParserTest {
 		final List<String> splitTokens = new LinkedList<>();
 
 		for (final String raw : rawTokens) {
-			if (raw.equals("")) continue;
+			if (raw.equals(""))
+				continue;
 
 			boolean doSplit = false;
 
@@ -229,8 +222,7 @@ public class PrattParserTest {
 
 		parser.addNonInitialCommand("catch", infixLeft(5));
 
-		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"),
-				false);
+		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"), false);
 		parser.addNonInitialCommand("if", ifElse);
 
 		parser.addNonInitialCommand(":=", new AssignCommand(10));
@@ -272,8 +264,7 @@ public class PrattParserTest {
 
 		parser.addNonInitialCommand(".", infixLeft(60));
 
-		final NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]",
-				litToken("idx"));
+		final NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]", litToken("idx"));
 		parser.addNonInitialCommand("[", arrayIdx);
 
 		final InitialCommand<String, String, TestContext> ifThenElse = preTernary(0, 0, 0, "then", "else",
@@ -287,12 +278,12 @@ public class PrattParserTest {
 				new BlockEnter(), idfun, new BlockExit(), true);
 		parser.addInitialCommand("begin", scoper);
 
-		final InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]",
-				litToken("array"), idfun, idfun, idfun, false);
+		final InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"),
+				idfun, idfun, idfun, false);
 		parser.addInitialCommand("[", arrayLiteral);
 
-		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"),
-				idfun, idfun, idfun, false);
+		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"), idfun,
+				idfun, idfun, false);
 		parser.addInitialCommand("{", jsonLiteral);
 
 		parser.addInitialCommand("try", unary(3));
