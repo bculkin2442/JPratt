@@ -33,10 +33,12 @@ import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
+import bjc.utils.funcdata.IList;
 import bjc.utils.parserutils.ParserException;
 import bjc.utils.parserutils.splitter.ChainTokenSplitter;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
+import bjc.utils.parserutils.splitter.FilteredTokenSplitter;
 import bjc.utils.parserutils.splitter.TokenSplitter;
 
 /**
@@ -83,6 +85,7 @@ public class PrattParserTest {
 		reserved.addAll(Arrays.asList("begin", "end"));
 		reserved.addAll(Arrays.asList("switch", "case"));
 		reserved.addAll(Arrays.asList("sqrt", "cbrt", "root"));
+		reserved.addAll(Arrays.asList("try", "catch", "finally"));
 		reserved.add("var");
 
 		final ChainTokenSplitter nsplit = new ChainTokenSplitter();
@@ -115,6 +118,8 @@ public class PrattParserTest {
 
 		excluder.addLiteralExclusions(reserved.toArray(new String[0]));
 
+		final FilteredTokenSplitter filtered = new FilteredTokenSplitter(excluder, (tok) -> !tok.equals(""));
+
 		final PrattParser<String, String, TestContext> parser = createParser();
 
 		final TestContext ctx = new TestContext();
@@ -125,7 +130,7 @@ public class PrattParserTest {
 		String ln = scn.nextLine();
 
 		while (!ln.trim().equals("")) {
-			final Iterator<Token<String, String>> tokens = preprocessInput(ops, excluder, ln, reserved,
+			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved,
 					ctx);
 
 			try {
@@ -165,6 +170,8 @@ public class PrattParserTest {
 		final List<String> splitTokens = new LinkedList<>();
 
 		for (final String raw : rawTokens) {
+			if (raw.equals("")) continue;
+
 			boolean doSplit = false;
 
 			for (final String op : ops) {
@@ -175,9 +182,10 @@ public class PrattParserTest {
 			}
 
 			if (doSplit) {
-				final String[] strangs = split.split(raw).toArray(new String[0]);
+				IList<String> splitStrangs = split.split(raw);
+				splitStrangs.removeMatching("");
 
-				splitTokens.addAll(Arrays.asList(strangs));
+				splitStrangs.forEach(splitTokens::add);
 			} else {
 				splitTokens.add(raw);
 			}
@@ -217,7 +225,11 @@ public class PrattParserTest {
 
 		parser.addNonInitialCommand(":", infixNon(3));
 
-		final NonInitialCommand<String, String, TestContext> ifElse = ternary(5, 0, "else", litToken("cond"),
+		parser.addNonInitialCommand("finally", infixLeft(4));
+
+		parser.addNonInitialCommand("catch", infixLeft(5));
+
+		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"),
 				false);
 		parser.addNonInitialCommand("if", ifElse);
 
@@ -282,6 +294,8 @@ public class PrattParserTest {
 		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"),
 				idfun, idfun, idfun, false);
 		parser.addInitialCommand("{", jsonLiteral);
+
+		parser.addInitialCommand("try", unary(3));
 
 		parser.addInitialCommand("case", unary(5));
 
