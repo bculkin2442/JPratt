@@ -1,14 +1,13 @@
 package bjc.pratt.examples.regex;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-import bjc.utils.data.GeneratingIterator;
 import bjc.utils.funcdata.IList;
-import bjc.utils.parserutils.TokenUtils;
+import bjc.utils.parserutils.TokenUtils.StringTokenSplitter;
+import bjc.utils.parserutils.splitter.ChainTokenSplitter;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.TokenSplitter;
 import bjc.utils.parserutils.splitter.TransformTokenSplitter;
@@ -32,21 +31,17 @@ public class RegexGrammar {
 		System.out.print("Enter text to parse (blank line to exit): ");
 		String ln = scn.nextLine().trim();
 
-		final Iterator<Integer> numbers = new GeneratingIterator<>(0, (num) -> num + 1, (val) -> true);
-
 		final Map<String, String> stringLiterals = new HashMap<>();
-		final Destringer destringer = new Destringer(numbers, stringLiterals);
 
-		final TokenSplitter dquoteSplitter = new TokenUtils.StringTokenSplitter();
-		final TokenSplitter dquoteRemover = new TransformTokenSplitter(dquoteSplitter, destringer);
-
-		final ConfigurableTokenSplitter regexSplitter = new ConfigurableTokenSplitter(true);
-		regexSplitter.addSimpleDelimiters("+", "|");
+		/*
+		 * Build the token splitter
+		 */
+		final ChainTokenSplitter splitter = buildSplitter(stringLiterals);
 
 		while (!ln.equals("")) {
-			final IList<String> quotelessTokens = dquoteRemover.split(ln);
+			final IList<String> quotelessTokens = splitter.split(ln);
 
-			System.out.println("\nTokens without quoted strings: " + quotelessTokens);
+			System.out.println("\nSplit tokens: " + quotelessTokens);
 
 			System.out.print("\nEnter text to parse (blank line to exit): ");
 			ln = scn.nextLine().trim();
@@ -58,5 +53,21 @@ public class RegexGrammar {
 		}
 
 		scn.close();
+	}
+
+	private static ChainTokenSplitter buildSplitter(final Map<String, String> stringLiterals) {
+		final Destringer destringer = new Destringer(stringLiterals);
+
+		final TokenSplitter dquoteSplitter = new StringTokenSplitter();
+		final TokenSplitter dquoteRemover = new TransformTokenSplitter(dquoteSplitter, destringer);
+
+		final ConfigurableTokenSplitter regexSplitter = new ConfigurableTokenSplitter(true);
+		regexSplitter.addSimpleDelimiters("+", "|");
+		regexSplitter.compile();
+
+		final ChainTokenSplitter splitter = new ChainTokenSplitter();
+		splitter.appendSplitters(dquoteRemover, regexSplitter);
+
+		return splitter;
 	}
 }

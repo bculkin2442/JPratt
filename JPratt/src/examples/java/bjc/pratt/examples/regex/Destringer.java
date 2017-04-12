@@ -4,12 +4,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
+import bjc.utils.data.GeneratingIterator;
+
 final class Destringer implements UnaryOperator<String> {
 	private final Iterator<Integer>		numbers;
-	private final Map<String, String>	stringLiterals;
+	public final Map<String, String>	stringLiterals;
 
-	public Destringer(final Iterator<Integer> nmbers, final Map<String, String> literals) {
-		numbers = nmbers;
+	public Destringer(final Map<String, String> literals) {
+		numbers = new GeneratingIterator<>(0, (num) -> num + 1, (val) -> true);
 		stringLiterals = literals;
 	}
 
