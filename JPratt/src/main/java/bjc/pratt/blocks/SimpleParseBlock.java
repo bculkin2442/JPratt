@@ -2,47 +2,45 @@ package bjc.pratt.blocks;
 
 import java.util.function.Predicate;
 
-import bjc.pratt.ParseBlock;
 import bjc.pratt.ParserContext;
-import bjc.pratt.Token;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.parserutils.ParserException;
 
 /**
  * Simple implementation of {@link ParseBlock}
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
  *                The key type of the tokens.
- * 
+ *
  * @param <V>
  *                The value type of the tokens.
- * 
+ *
  * @param <C>
  *                The state type of the parser.
  */
 public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
-	private int pow;
+	private final int pow;
 
-	private K term;
+	private final K term;
 
-	private Predicate<ITree<Token<K, V>>> validatr;
+	private final Predicate<ITree<Token<K, V>>> validatr;
 
 	/**
 	 * Create a new block.
-	 * 
+	 *
 	 * @param precedence
 	 *                The precedence of this block.
-	 * 
+	 * @param validator
+	 *                The predicate to apply to blocks.
 	 * @param terminator
 	 *                The token type that terminates the block. If this is
 	 *                null, don't check for a terminator.
-	 * 
-	 * @param validator
-	 *                The predicate to apply to blocks.
 	 */
-	public SimpleParseBlock(int precedence, K terminator, Predicate<ITree<Token<K, V>>> validator) {
+	public SimpleParseBlock(final int precedence, final Predicate<ITree<Token<K, V>>> validator,
+			final K terminator) {
 		if (precedence < 0) throw new IllegalArgumentException("Precedence must be non-negative");
 
 		pow = precedence;
@@ -51,16 +49,14 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		ITree<Token<K, V>> res = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
+	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final ITree<Token<K, V>> res = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
 
 		if (term != null) {
 			ctx.tokens.expect(term);
 		}
 
-		if (validatr == null || validatr.test(res)) {
-			return res;
-		}
+		if (validatr == null || validatr.test(res)) return res;
 
 		throw new ParserException("Block failed validation");
 	}
@@ -72,18 +68,18 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 		int result = 1;
 
 		result = prime * result + pow;
-		result = prime * result + ((term == null) ? 0 : term.hashCode());
+		result = prime * result + (term == null ? 0 : term.hashCode());
 
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (!(obj instanceof SimpleParseBlock)) return false;
 
-		SimpleParseBlock<?, ?, ?> other = (SimpleParseBlock<?, ?, ?>) obj;
+		final SimpleParseBlock<?, ?, ?> other = (SimpleParseBlock<?, ?, ?>) obj;
 
 		if (pow != other.pow) return false;
 
@@ -92,10 +88,5 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 		} else if (!term.equals(other.term)) return false;
 
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("ParseBlock [pow=%s, term='%s']", pow, term);
 	}
 }

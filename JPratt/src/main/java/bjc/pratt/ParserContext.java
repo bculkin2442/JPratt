@@ -1,15 +1,17 @@
 package bjc.pratt;
 
+import bjc.pratt.tokens.TokenStream;
+
 /**
  * Represents the contextual state passed to a command.
- * 
+ *
  * @author EVE
  *
  * @param <K>
  *                The key type of the tokens.
  * @param <V>
  *                The value type of the tokens.
- * 
+ *
  * @param <C>
  *                The state type of the parser.
  */
@@ -17,31 +19,38 @@ public class ParserContext<K, V, C> {
 	/**
 	 * The source of tokens.
 	 */
-	public TokenStream<K, V>	tokens;
+	public TokenStream<K, V> tokens;
+
 	/**
 	 * The parser for sub-expressions.
 	 */
-	public PrattParser<K, V, C>	parse;
+	public PrattParser<K, V, C> parse;
+
 	/**
 	 * The state of the parser.
 	 */
-	public C			state;
+	public C state;
+
+	/**
+	 * The initial command for the current expression.
+	 */
+	public K initial;
 
 	/**
 	 * Create a new parser context.
-	 * 
-	 * @param tokens
+	 *
+	 * @param tokns
 	 *                The source of tokens.
-	 * 
-	 * @param parse
+	 *
+	 * @param prse
 	 *                The parser to call for sub expressions.
-	 * 
-	 * @param state
+	 *
+	 * @param stte
 	 *                Any state needing to be kept during parsing.
 	 */
-	public ParserContext(TokenStream<K, V> tokens, PrattParser<K, V, C> parse, C state) {
-		this.tokens = tokens;
-		this.parse = parse;
-		this.state = state;
+	public ParserContext(final TokenStream<K, V> tokns, final PrattParser<K, V, C> prse, final C stte) {
+		tokens = tokns;
+		parse = prse;
+		state = stte;
 	}
 }

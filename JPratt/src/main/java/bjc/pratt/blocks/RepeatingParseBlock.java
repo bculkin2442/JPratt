@@ -2,9 +2,8 @@ package bjc.pratt.blocks;
 
 import java.util.function.UnaryOperator;
 
-import bjc.pratt.ParseBlock;
 import bjc.pratt.ParserContext;
-import bjc.pratt.Token;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.Tree;
 import bjc.utils.parserutils.ParserException;
@@ -12,49 +11,49 @@ import bjc.utils.parserutils.ParserException;
 /**
  * A parse block that can parse a sequnce of zero or more occurances of another
  * block.
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
  *                The key type of the tokens.
- * 
+ *
  * @param <V>
  *                The value type of the tokens.
- * 
+ *
  * @param <C>
  *                The state type of the parser.
  */
 public class RepeatingParseBlock<K, V, C> implements ParseBlock<K, V, C> {
-	private ParseBlock<K, V, C> innerBlock;
+	private final ParseBlock<K, V, C> innerBlock;
 
-	private K	delim;
-	private K	term;
+	private final K	delim;
+	private final K	term;
 
-	private UnaryOperator<C> onDelim;
+	private final UnaryOperator<C> onDelim;
 
-	private Token<K, V> mark;
+	private final Token<K, V> mark;
 
 	/**
 	 * Create a new repeating block.
-	 * 
+	 *
 	 * @param inner
 	 *                The inner block for elements.
-	 * 
+	 *
 	 * @param delimiter
 	 *                The token that delimits elements in the sequence.
-	 * 
+	 *
 	 * @param terminator
 	 *                The token that terminates the sequence.
-	 * 
+	 *
 	 * @param marker
 	 *                The token to use as the node in the AST.
-	 * 
+	 *
 	 * @param action
 	 *                The action to apply to the state after every
 	 *                delimiter.
 	 */
-	public RepeatingParseBlock(ParseBlock<K, V, C> inner, K delimiter, K terminator, Token<K, V> marker,
-			UnaryOperator<C> action) {
+	public RepeatingParseBlock(final ParseBlock<K, V, C> inner, final K delimiter, final K terminator,
+			final Token<K, V> marker, final UnaryOperator<C> action) {
 		super();
 
 		if (inner == null)
@@ -74,20 +73,22 @@ public class RepeatingParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		ITree<Token<K, V>> ret = new Tree<>(mark);
+	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final ITree<Token<K, V>> ret = new Tree<>(mark);
 
 		Token<K, V> tok = ctx.tokens.current();
 
 		while (!tok.getKey().equals(term)) {
-			ITree<Token<K, V>> kid = innerBlock.parse(ctx);
+			final ITree<Token<K, V>> kid = innerBlock.parse(ctx);
 			ret.addChild(kid);
 
 			tok = ctx.tokens.current();
 
 			ctx.tokens.expect(delim, term);
 
-			if (onDelim != null) ctx.state = onDelim.apply(ctx.state);
+			if (onDelim != null) {
+				ctx.state = onDelim.apply(ctx.state);
+			}
 		}
 
 		return ret;

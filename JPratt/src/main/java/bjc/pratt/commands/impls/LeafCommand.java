@@ -1,12 +1,14 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
 
 import bjc.pratt.ParserContext;
+import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
+import bjc.utils.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
- * Abstract base for initial commands.
+ * A operator that stands for itself.
  *
  * @author bjculkin
  *
@@ -19,14 +21,10 @@ import bjc.utils.parserutils.ParserException;
  * @param <C>
  *                The state type of the parser.
  */
-public abstract class AbstractInitialCommand<K, V, C> implements InitialCommand<K, V, C> {
+public class LeafCommand<K, V, C> implements InitialCommand<K, V, C> {
 	@Override
 	public ITree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
-		return intNullDenotation(operator, ctx);
+		return new Tree<>(operator);
 	}
-
-	protected abstract ITree<Token<K, V>> intNullDenotation(Token<K, V> operator, ParserContext<K, V, C> ctx)
-			throws ParserException;
-
 }
