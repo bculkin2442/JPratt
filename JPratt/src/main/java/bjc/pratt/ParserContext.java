@@ -17,15 +17,22 @@ public class ParserContext<K, V, C> {
 	/**
 	 * The source of tokens.
 	 */
-	public TokenStream<K, V>	tokens;
+	public TokenStream<K, V> tokens;
+
 	/**
 	 * The parser for sub-expressions.
 	 */
-	public PrattParser<K, V, C>	parse;
+	public PrattParser<K, V, C> parse;
+
 	/**
 	 * The state of the parser.
 	 */
-	public C			state;
+	public C state;
+
+	/**
+	 * The initial command for the current expression.
+	 */
+	public K initial;
 
 	/**
 	 * Create a new parser context.
@@ -40,8 +47,8 @@ public class ParserContext<K, V, C> {
 	 *                Any state needing to be kept during parsing.
 	 */
 	public ParserContext(final TokenStream<K, V> tokns, final PrattParser<K, V, C> prse, final C stte) {
-		this.tokens = tokns;
-		this.parse = prse;
-		this.state = stte;
+		tokens = tokns;
+		parse = prse;
+		state = stte;
 	}
 }
