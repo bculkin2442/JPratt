@@ -93,10 +93,10 @@ public class PrattParserTest {
 		final ConfigurableTokenSplitter hi = new ConfigurableTokenSplitter(true);
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
 
-		hi.addSimpleDelimiters("->");
-		hi.addSimpleDelimiters(":=");
-		hi.addSimpleDelimiters("||", "&&");
-		hi.addSimpleDelimiters("<=", ">=");
+		lo.addSimpleDelimiters("->");
+		lo.addSimpleDelimiters(":=");
+		lo.addSimpleDelimiters("||", "&&");
+		lo.addSimpleDelimiters("<=", ">=");
 
 		lo.addSimpleDelimiters("\u00B1"); // Unicode plus/minus
 		lo.addSimpleDelimiters(".", ",", ";", ":");
@@ -109,12 +109,12 @@ public class PrattParserTest {
 		lo.addMultiDelimiters("[", "]");
 		lo.addMultiDelimiters("{", "}");
 
-		hi.compile();
+		//hi.compile();
 		lo.compile();
 
 		nsplit.appendSplitters(hi, lo);
 
-		final ExcludingTokenSplitter excluder = new ExcludingTokenSplitter(nsplit);
+		final ExcludingTokenSplitter excluder = new ExcludingTokenSplitter(lo);
 
 		excluder.addLiteralExclusions(reserved.toArray(new String[0]));
 
