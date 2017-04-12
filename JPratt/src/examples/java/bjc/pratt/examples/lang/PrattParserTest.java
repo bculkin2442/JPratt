@@ -1,17 +1,17 @@
 package bjc.pratt.examples.lang;
 
-import static bjc.pratt.commands.InitialCommands.delimited;
-import static bjc.pratt.commands.InitialCommands.grouping;
-import static bjc.pratt.commands.InitialCommands.leaf;
-import static bjc.pratt.commands.InitialCommands.preTernary;
-import static bjc.pratt.commands.InitialCommands.unary;
-import static bjc.pratt.commands.NonInitialCommands.chain;
-import static bjc.pratt.commands.NonInitialCommands.infixLeft;
-import static bjc.pratt.commands.NonInitialCommands.infixNon;
-import static bjc.pratt.commands.NonInitialCommands.infixRight;
-import static bjc.pratt.commands.NonInitialCommands.postCircumfix;
-import static bjc.pratt.commands.NonInitialCommands.postfix;
-import static bjc.pratt.commands.NonInitialCommands.ternary;
+import static bjc.pratt.commands.impls.InitialCommands.delimited;
+import static bjc.pratt.commands.impls.InitialCommands.grouping;
+import static bjc.pratt.commands.impls.InitialCommands.leaf;
+import static bjc.pratt.commands.impls.InitialCommands.preTernary;
+import static bjc.pratt.commands.impls.InitialCommands.unary;
+import static bjc.pratt.commands.impls.NonInitialCommands.chain;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixLeft;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixNon;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixRight;
+import static bjc.pratt.commands.impls.NonInitialCommands.postCircumfix;
+import static bjc.pratt.commands.impls.NonInitialCommands.postfix;
+import static bjc.pratt.commands.impls.NonInitialCommands.ternary;
 import static bjc.pratt.tokens.StringToken.litToken;
 import static bjc.utils.functypes.ID.id;
 
@@ -25,12 +25,12 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
-import bjc.pratt.InitialCommand;
-import bjc.pratt.NonInitialCommand;
 import bjc.pratt.PrattParser;
-import bjc.pratt.Token;
+import bjc.pratt.commands.InitialCommand;
+import bjc.pratt.commands.NonInitialCommand;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.funcdata.IList;

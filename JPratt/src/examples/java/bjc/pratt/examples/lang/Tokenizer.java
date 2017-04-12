@@ -5,8 +5,8 @@ import static bjc.pratt.tokens.StringToken.litToken;
 import java.util.Set;
 import java.util.function.Function;
 
-import bjc.pratt.Token;
 import bjc.pratt.tokens.StringToken;
+import bjc.pratt.tokens.Token;
 
 final class Tokenizer implements Function<String, Token<String, String>> {
 	private final Set<String>	ops;

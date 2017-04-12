@@ -1,8 +1,8 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
 
-import bjc.pratt.NonInitialCommand;
 import bjc.pratt.ParserContext;
-import bjc.pratt.Token;
+import bjc.pratt.commands.NonInitialCommand;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 
 /**

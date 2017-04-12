@@ -1,30 +1,39 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
+
+import bjc.pratt.commands.BinaryCommand;
 
 /**
- * A right-associative binary operator.
+ * A non-associative operator.
  *
  * @author bjculkin
  *
  * @param <K>
  *                The key type of the tokens.
+ *
  * @param <V>
  *                The value type of the tokens.
+ *
  * @param <C>
  *                The state type of the parser.
  */
-public class RightBinaryCommand<K, V, C> extends BinaryCommand<K, V, C> {
+public class NonBinaryCommand<K, V, C> extends BinaryCommand<K, V, C> {
 	/**
-	 * Create a new right-associative operator.
+	 * Create a new non-associative operator.
 	 *
 	 * @param precedence
 	 *                The precedence of the operator.
 	 */
-	public RightBinaryCommand(final int precedence) {
+	public NonBinaryCommand(final int precedence) {
 		super(precedence);
 	}
 
 	@Override
 	protected int rightBinding() {
-		return leftBinding();
+		return 1 + leftBinding();
+	}
+
+	@Override
+	public int nextBinding() {
+		return leftBinding() - 1;
 	}
 }

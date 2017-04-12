@@ -2,9 +2,8 @@ package bjc.pratt.blocks;
 
 import java.util.Set;
 
-import bjc.pratt.ParseBlock;
 import bjc.pratt.ParserContext;
-import bjc.pratt.Token;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.Tree;
 import bjc.utils.parserutils.ParserException;

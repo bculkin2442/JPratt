@@ -1,7 +1,9 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
+
+import bjc.pratt.commands.BinaryCommand;
 
 /**
- * A non-associative operator.
+ * A left-associative operator.
  *
  * @author bjculkin
  *
@@ -14,24 +16,19 @@ package bjc.pratt.commands;
  * @param <C>
  *                The state type of the parser.
  */
-public class NonBinaryCommand<K, V, C> extends BinaryCommand<K, V, C> {
+public class LeftBinaryCommand<K, V, C> extends BinaryCommand<K, V, C> {
 	/**
-	 * Create a new non-associative operator.
+	 * Create a new left-associative operator.
 	 *
 	 * @param precedence
 	 *                The precedence of the operator.
 	 */
-	public NonBinaryCommand(final int precedence) {
+	public LeftBinaryCommand(final int precedence) {
 		super(precedence);
 	}
 
 	@Override
 	protected int rightBinding() {
 		return 1 + leftBinding();
-	}
-
-	@Override
-	public int nextBinding() {
-		return leftBinding() - 1;
 	}
 }

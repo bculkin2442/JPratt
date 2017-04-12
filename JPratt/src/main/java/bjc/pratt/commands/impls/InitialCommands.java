@@ -1,4 +1,4 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
 
 import static bjc.pratt.blocks.ParseBlocks.repeating;
 import static bjc.pratt.blocks.ParseBlocks.simple;
@@ -6,9 +6,9 @@ import static bjc.pratt.blocks.ParseBlocks.trigger;
 
 import java.util.function.UnaryOperator;
 
-import bjc.pratt.InitialCommand;
-import bjc.pratt.ParseBlock;
-import bjc.pratt.Token;
+import bjc.pratt.blocks.ParseBlock;
+import bjc.pratt.commands.InitialCommand;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 
 /**

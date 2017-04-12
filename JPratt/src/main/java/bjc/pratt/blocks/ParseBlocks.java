@@ -3,8 +3,7 @@ package bjc.pratt.blocks;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-import bjc.pratt.ParseBlock;
-import bjc.pratt.Token;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 
 /**

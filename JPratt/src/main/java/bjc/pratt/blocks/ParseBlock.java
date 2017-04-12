@@ -1,5 +1,7 @@
-package bjc.pratt;
+package bjc.pratt.blocks;
 
+import bjc.pratt.ParserContext;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.parserutils.ParserException;
 

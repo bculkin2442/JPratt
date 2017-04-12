@@ -1,5 +1,7 @@
 package bjc.pratt;
 
+import bjc.pratt.tokens.TokenStream;
+
 /**
  * Represents the contextual state passed to a command.
  *

@@ -2,7 +2,7 @@ package bjc.pratt.examples.lang;
 
 import java.util.function.UnaryOperator;
 
-import bjc.pratt.Token;
+import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.esodata.Directory;
 import bjc.utils.esodata.Stack;

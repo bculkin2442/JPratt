@@ -1,11 +1,11 @@
-package bjc.pratt.commands;
+package bjc.pratt.commands.impls;
 
 import java.util.Set;
 
-import bjc.pratt.NonInitialCommand;
-import bjc.pratt.ParseBlock;
-import bjc.pratt.Token;
+import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.blocks.SimpleParseBlock;
+import bjc.pratt.commands.NonInitialCommand;
+import bjc.pratt.tokens.Token;
 
 /**
  * Contains factory methods for producing common implementations of

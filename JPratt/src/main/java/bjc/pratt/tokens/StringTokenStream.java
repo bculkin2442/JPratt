@@ -4,9 +4,6 @@ import static bjc.pratt.tokens.StringToken.litToken;
 
 import java.util.Iterator;
 
-import bjc.pratt.Token;
-import bjc.pratt.TokenStream;
-
 /**
  * Simple implementation of token stream for strings.
  *

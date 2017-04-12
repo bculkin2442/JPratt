@@ -1,4 +1,6 @@
-package bjc.pratt;
+package bjc.pratt.commands;
+
+import bjc.pratt.ParserContext;
 
 /**
  * A 'meta-command' for non-initial commands.

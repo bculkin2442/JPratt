@@ -1,4 +1,4 @@
-package bjc.pratt;
+package bjc.pratt.tokens;
 
 /**
  * Represents a simple parsing token.

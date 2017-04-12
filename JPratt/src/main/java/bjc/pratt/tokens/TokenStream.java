@@ -1,4 +1,4 @@
-package bjc.pratt;
+package bjc.pratt.tokens;
 
 import java.util.Arrays;
 import java.util.HashSet;

@@ -1,7 +1,5 @@
 package bjc.pratt.tokens;
 
-import bjc.pratt.Token;
-
 /**
  * Simple token implementation for strings.
  *

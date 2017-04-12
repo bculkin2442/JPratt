@@ -1,7 +1,5 @@
 package bjc.pratt.commands;
 
-import bjc.pratt.NonInitialCommand;
-
 /**
  * A operator with fixed precedence.
  *

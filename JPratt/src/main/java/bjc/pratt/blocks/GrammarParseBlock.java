@@ -2,11 +2,10 @@ package bjc.pratt.blocks;
 
 import java.util.function.Function;
 
-import bjc.pratt.ParseBlock;
 import bjc.pratt.ParserContext;
 import bjc.pratt.PrattParser;
-import bjc.pratt.Token;
-import bjc.pratt.TokenStream;
+import bjc.pratt.tokens.Token;
+import bjc.pratt.tokens.TokenStream;
 import bjc.utils.data.ITree;
 import bjc.utils.funcutils.Isomorphism;
 import bjc.utils.parserutils.ParserException;
