@@ -10,42 +10,43 @@ import bjc.utils.parserutils.ParserException;
 
 /**
  * A non-initial command that delegates all of the work to a {@link ParseBlock}
- * 
+ *
  * @author bjculkin
  *
  * @param <K>
  *                The token key type.
- * 
+ *
  * @param <V>
  *                The token value type.
- * 
+ *
  * @param <C>
  *                The parser state type.
  */
 public class BlockNonInitialCommand<K, V, C> extends NonInitialCommand<K, V, C> {
-	private ParseBlock<K, V, C> innr;
+	private final ParseBlock<K, V, C> innr;
 
-	private int	lftBind;
-	private int	nxtBind;
+	private final int	lftBind;
+	private final int	nxtBind;
 
-	private Token<K, V> trm;
+	private final Token<K, V> trm;
 
 	/**
 	 * Create a new non-initial command that delegates to a parse block.
-	 * 
+	 *
 	 * @param inner
 	 *                The parse block to delegate to.
-	 * 
+	 *
 	 * @param leftBind
 	 *                The left binding power (precedence).
-	 * 
+	 *
 	 * @param rightBind
 	 *                The right binding power (associativity control).
-	 * 
+	 *
 	 * @param term
 	 *                The token to use as the node in the AST.
 	 */
-	public BlockNonInitialCommand(ParseBlock<K, V, C> inner, int leftBind, int rightBind, Token<K, V> term) {
+	public BlockNonInitialCommand(final ParseBlock<K, V, C> inner, final int leftBind, final int rightBind,
+			final Token<K, V> term) {
 		innr = inner;
 
 		lftBind = leftBind;
@@ -55,9 +56,9 @@ public class BlockNonInitialCommand<K, V, C> extends NonInitialCommand<K, V, C> 
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(ITree<Token<K, V>> operand, Token<K, V> operator, ParserContext<K, V, C> ctx)
-			throws ParserException {
-		ITree<Token<K, V>> expression = innr.parse(ctx);
+	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand, final Token<K, V> operator,
+			final ParserContext<K, V, C> ctx) throws ParserException {
+		final ITree<Token<K, V>> expression = innr.parse(ctx);
 
 		return new Tree<>(trm, expression);
 	}

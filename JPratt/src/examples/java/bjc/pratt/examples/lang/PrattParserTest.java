@@ -1,4 +1,4 @@
-package bjc.pratt.examples;
+package bjc.pratt.examples.lang;
 
 import static bjc.pratt.commands.InitialCommands.delimited;
 import static bjc.pratt.commands.InitialCommands.grouping;
@@ -34,10 +34,10 @@ import bjc.pratt.tokens.StringTokenStream;
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.parserutils.ParserException;
-import bjc.utils.parserutils.splitterv2.ChainTokenSplitter;
-import bjc.utils.parserutils.splitterv2.ConfigurableTokenSplitter;
-import bjc.utils.parserutils.splitterv2.ExcludingTokenSplitter;
-import bjc.utils.parserutils.splitterv2.TokenSplitter;
+import bjc.utils.parserutils.splitter.ChainTokenSplitter;
+import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
+import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
+import bjc.utils.parserutils.splitter.TokenSplitter;
 
 /**
  * Simple test for Pratt parser.

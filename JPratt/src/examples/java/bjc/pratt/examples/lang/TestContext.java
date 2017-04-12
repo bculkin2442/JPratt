@@ -1,4 +1,4 @@
-package bjc.pratt.examples;
+package bjc.pratt.examples.lang;
 
 import bjc.pratt.Token;
 import bjc.utils.data.ITree;

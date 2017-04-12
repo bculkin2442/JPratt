@@ -1,15 +1,11 @@
 package bjc.pratt.blocks;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParseBlock;
-import bjc.pratt.PrattParser;
 import bjc.pratt.Token;
-import bjc.pratt.TokenStream;
 import bjc.utils.data.ITree;
-import bjc.utils.funcutils.Isomorphism;
 
 /**
  * Utility class for creating common implementations of {@link ParseBlock}

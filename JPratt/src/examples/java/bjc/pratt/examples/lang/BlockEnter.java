@@ -1,4 +1,4 @@
-package bjc.pratt.examples;
+package bjc.pratt.examples.lang;
 
 import java.util.function.UnaryOperator;
 
