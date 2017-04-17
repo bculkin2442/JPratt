@@ -28,6 +28,7 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.PrattParser;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.commands.NonInitialCommand;
+import bjc.pratt.examples.lang.tokens.LangToken;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
@@ -35,7 +36,6 @@ import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.funcdata.IList;
 import bjc.utils.parserutils.ParserException;
-import bjc.utils.parserutils.splitter.ChainTokenSplitter;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
 import bjc.utils.parserutils.splitter.FilteredTokenSplitter;
@@ -85,7 +85,7 @@ public class PrattParserTest {
 		reserved.addAll(Arrays.asList("begin", "end"));
 		reserved.addAll(Arrays.asList("switch", "case"));
 		reserved.addAll(Arrays.asList("sqrt", "cbrt", "root"));
-		reserved.addAll(Arrays.asList("try", "catch", "finally"));
+		reserved.addAll(Arrays.asList("try", "throw", "catch", "finally"));
 		reserved.add("var");
 
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
@@ -134,13 +134,17 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				final ITree<Token<String, String>> tree = parser.parseExpression(0, tokenStream, ctx, true);
+				final ITree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
 
 				if (!tokenStream.headIs("(end)")) {
 					System.out.println("\nMultiple expressions on line");
 				}
 
-				System.out.println("\nParsed expression:\n" + tree);
+				System.out.printf("\nParsed expression:\n%s", rawTree);
+
+				final ITree<LangToken> tokenTree = rawTree.rebuildTree(LangToken::fromToken, LangToken::fromToken);
+
+				System.out.printf("\nAST-ized expression:\n%s", tokenTree);
 			} catch (final ParserException pex) {
 				pex.printStackTrace();
 			}
@@ -150,7 +154,7 @@ public class PrattParserTest {
 		}
 
 		System.out.println();
-		System.out.println("\nContext is: " + ctx);
+		System.out.printf("\nContext is: %s\n", ctx);
 
 		scn.close();
 	}
@@ -289,6 +293,8 @@ public class PrattParserTest {
 		parser.addInitialCommand("try", unary(3));
 
 		parser.addInitialCommand("case", unary(5));
+
+		parser.addInitialCommand("throw", unary(10));
 
 		parser.addInitialCommand("-", unary(30));
 
