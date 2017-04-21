@@ -24,7 +24,7 @@ class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 			throw new ParserException("Variable name must be simple");
 		}
 
-		ctx.tokens.expect("=");
+		ctx.tokens.expect(":=");
 
 		final ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 

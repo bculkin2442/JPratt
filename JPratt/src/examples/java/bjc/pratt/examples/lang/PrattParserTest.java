@@ -218,25 +218,52 @@ public class PrattParserTest {
 
 		final PrattParser<String, String, TestContext> parser = new PrattParser<>();
 
+		/*
+		 * Statement ender.
+		 */
 		parser.addNonInitialCommand("!!!", postfix(0));
 
+		/*
+		 * Separator.
+		 */
 		parser.addNonInitialCommand(":", infixNon(3));
 
+		/*
+		 * Finally block.
+		 */
 		parser.addNonInitialCommand("finally", infixLeft(4));
 
+		/*
+		 * Catch block.
+		 */
 		parser.addNonInitialCommand("catch", infixLeft(5));
 
+		/*
+		 * Inline conditional.
+		 */
 		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"), false);
 		parser.addNonInitialCommand("if", ifElse);
 
+		/*
+		 * Assignment.
+		 */
 		parser.addNonInitialCommand(":=", new AssignCommand(10));
 
+		/*
+		 * Lambda definer.
+		 */
 		parser.addNonInitialCommand("->", infixRight(11));
 
+		/*
+		 * Non-short circuiting condtionals.
+		 */
 		final NonInitialCommand<String, String, TestContext> nonSSRelJoin = infixLeft(13);
 		parser.addNonInitialCommand("and", nonSSRelJoin);
 		parser.addNonInitialCommand("or", nonSSRelJoin);
 
+		/*
+		 * Relational operators.
+		 */
 		final NonInitialCommand<String, String, TestContext> chainRelOp = chain(15, relChain, chainToken);
 		parser.addNonInitialCommand("=", chainRelOp);
 		parser.addNonInitialCommand("<", chainRelOp);
@@ -244,69 +271,128 @@ public class PrattParserTest {
 		parser.addNonInitialCommand("<=", chainRelOp);
 		parser.addNonInitialCommand(">=", chainRelOp);
 
+		/*
+		 * Short-circuiting conditionals.
+		 */
 		final NonInitialCommand<String, String, TestContext> ssRelJoin = infixRight(17);
 		parser.addNonInitialCommand("&&", ssRelJoin);
 		parser.addNonInitialCommand("||", ssRelJoin);
 
+		/*
+		 * Add/subtracting operators.
+		 */
 		final NonInitialCommand<String, String, TestContext> addSub = infixLeft(20);
 		parser.addNonInitialCommand("+", addSub);
 		parser.addNonInitialCommand("-", addSub);
 		parser.addNonInitialCommand("\u00B1", addSub); // Unicode plus/minus
 
+		/*
+		 * Multiply/divide operators.
+		 */
 		final NonInitialCommand<String, String, TestContext> mulDiv = infixLeft(30);
 		parser.addNonInitialCommand("*", mulDiv);
 		parser.addNonInitialCommand("/", mulDiv);
 
+		/*
+		 * Conditional negation.
+		 */
 		parser.addNonInitialCommand("!", postfix(40));
 
+		/*
+		 * Exponentiation.
+		 */
 		final NonInitialCommand<String, String, TestContext> expon = infixRight(50);
+		final NonInitialCommand<String, String, TestContext> superexpon = postfix(50);
 		parser.addNonInitialCommand("^", expon);
 		parser.addNonInitialCommand("root", expon);
-
-		final NonInitialCommand<String, String, TestContext> superexpon = postfix(50);
 		parser.addNonInitialCommand("(superexp)", superexpon);
 
+		/*
+		 * Member access.
+		 */
 		parser.addNonInitialCommand(".", infixLeft(60));
 
+		/*
+		 * Array indexing.
+		 */
 		final NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]", litToken("idx"));
 		parser.addNonInitialCommand("[", arrayIdx);
 
+		/*
+		 * Statement conditional.
+		 */
 		final InitialCommand<String, String, TestContext> ifThenElse = preTernary(0, 0, 0, "then", "else",
 				litToken("ifelse"));
 		parser.addInitialCommand("if", ifThenElse);
 
+		/*
+		 * Grouping parens.
+		 */
 		final InitialCommand<String, String, TestContext> parens = grouping(0, ")", litToken("parens"));
 		parser.addInitialCommand("(", parens);
 
+		/*
+		 * Blocks.
+		 */
 		final InitialCommand<String, String, TestContext> scoper = delimited(0, ";", "end", litToken("block"),
 				new BlockEnter(), idfun, new BlockExit(), true);
 		parser.addInitialCommand("begin", scoper);
 
+		/*
+		 * Array literals.
+		 */
 		final InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"),
 				idfun, idfun, idfun, false);
 		parser.addInitialCommand("[", arrayLiteral);
 
+		/*
+		 * JSON literals.
+		 */
 		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"), idfun,
 				idfun, idfun, false);
 		parser.addInitialCommand("{", jsonLiteral);
 
+		/*
+		 * Try block.
+		 */
 		parser.addInitialCommand("try", unary(3));
 
+		/*
+		 * Case block.
+		 */
 		parser.addInitialCommand("case", unary(5));
 
+		/*
+		 * Throw statement.
+		 */
 		parser.addInitialCommand("throw", unary(10));
 
+		/*
+		 * Negation.
+		 */
 		parser.addInitialCommand("-", unary(30));
 
+		/*
+		 * Roots.
+		 */
 		final InitialCommand<String, String, TestContext> root = unary(50);
 		parser.addInitialCommand("sqrt", root);
 		parser.addInitialCommand("cbrt", root);
 
+		/*
+		 * Literals.
+		 */
 		final InitialCommand<String, String, TestContext> leaf = leaf();
 		parser.addInitialCommand("(literal)", leaf);
 
+		/*
+		 * Variable declaration.
+		 */
 		parser.addInitialCommand("var", new VarCommand());
 
+		/*
+		 * Switch statement.
+		 */
 		parser.addInitialCommand("switch", new SwitchCommand());
 
 		return parser;
