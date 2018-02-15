@@ -1,13 +1,13 @@
-package bjc.pratt.examples.lang.tokens;
+package bjc.pratt.examples.lang.ast;
 
-import bjc.pratt.examples.lang.LangEvaluator.LangResult;
+import bjc.pratt.examples.lang.evaluator.LangResult;
 import bjc.pratt.tokens.Token;
 import bjc.utils.data.TopDownTransformResult;
 
-public interface LangToken {
+public interface LangAST {
 	LangResult toResult();
 
-	static LangToken fromToken(Token<String, String> token) {
+	static LangAST fromToken(Token<String, String> token) {
 		return null;
 	}
 	

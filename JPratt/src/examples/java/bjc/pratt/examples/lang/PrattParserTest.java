@@ -28,7 +28,7 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.PrattParser;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.commands.NonInitialCommand;
-import bjc.pratt.examples.lang.tokens.LangToken;
+import bjc.pratt.examples.lang.ast.LangAST;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
@@ -143,7 +143,7 @@ public class PrattParserTest {
 
 				System.out.printf("\nParsed expression:\n%s", rawTree);
 
-				final ITree<LangToken> tokenTree = rawTree.rebuildTree(LangToken::fromToken, LangToken::fromToken);
+				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken, LangAST::fromToken);
 
 				System.out.printf("\nAST-ized expression:\n%s", tokenTree);
 			} catch (final ParserException pex) {
