@@ -14,13 +14,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class TernaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	private final ParseBlock<K, V, C> innerBlck;
@@ -33,25 +33,24 @@ public class TernaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	 * Create a new ternary command.
 	 *
 	 * @param precedence
-	 *                The precedence of this operator.
+	 *        The precedence of this operator.
 	 *
 	 * @param innerBlock
-	 *                The representation of the inner block of the
-	 *                expression.
+	 *        The representation of the inner block of the expression.
 	 *
 	 * @param marker
-	 *                The token to use as the root of the AST node.
+	 *        The token to use as the root of the AST node.
 	 *
 	 * @param isNonassoc
-	 *                Whether or not the conditional is associative.
+	 *        Whether or not the conditional is associative.
 	 */
 	public TernaryCommand(final int precedence, final ParseBlock<K, V, C> innerBlock, final Token<K, V> marker,
 			final boolean isNonassoc) {
 		super(precedence);
 
-		if (innerBlock == null)
+		if(innerBlock == null)
 			throw new NullPointerException("Inner block must not be null");
-		else if (marker == null) throw new NullPointerException("Marker must not be null");
+		else if(marker == null) throw new NullPointerException("Marker must not be null");
 
 		innerBlck = innerBlock;
 		mark = marker;
@@ -71,7 +70,7 @@ public class TernaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 
 	@Override
 	public int nextBinding() {
-		if (nonassoc) return leftBinding() - 1;
+		if(nonassoc) return leftBinding() - 1;
 
 		return leftBinding();
 	}

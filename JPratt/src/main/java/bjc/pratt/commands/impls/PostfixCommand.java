@@ -13,20 +13,20 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class PostfixCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	/**
 	 * Create a new postfix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 */
 	public PostfixCommand(final int precedence) {
 		super(precedence);

@@ -16,22 +16,22 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the outer tokens.
+ *        The key type of the outer tokens.
  *
  * @param <V>
- *                The value type of the outer tokens.
+ *        The value type of the outer tokens.
  *
  * @param <C>
- *                The state type of the outer parser.
+ *        The state type of the outer parser.
  *
  * @param <K2>
- *                The key type of the inner tokens.
+ *        The key type of the inner tokens.
  *
  * @param <V2>
- *                The value type of the inner tokens.
+ *        The value type of the inner tokens.
  *
  * @param <C2>
- *                The state type of the outer parser.
+ *        The state type of the outer parser.
  */
 public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, C> {
 	private final PrattParser<K2, V2, C2> innr;

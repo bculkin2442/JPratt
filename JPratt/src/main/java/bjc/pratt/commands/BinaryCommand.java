@@ -12,20 +12,20 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public abstract class BinaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	/**
 	 * Create a new binary operator with the specified precedence.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 */
 	public BinaryCommand(final int precedence) {
 		super(precedence);

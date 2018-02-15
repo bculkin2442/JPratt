@@ -16,13 +16,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  * 
  * @param <K>
- *                The token key type.
+ *        The token key type.
  * 
  * @param <V>
- *                The token value type.
+ *        The token value type.
  * 
  * @param <C>
- *                The parser state type.
+ *        The parser state type.
  *
  */
 public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
@@ -36,13 +36,13 @@ public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	 * Create a new chain parser block.
 	 * 
 	 * @param inner
-	 *                The block for the chains interior.
+	 *        The block for the chains interior.
 	 * 
 	 * @param chainIndicators
-	 *                The set of markers that indicate continuing the chain
+	 *        The set of markers that indicate continuing the chain
 	 * 
 	 * @param term
-	 *                The node in the AST for the expression.
+	 *        The node in the AST for the expression.
 	 */
 	public ChainParseBlock(ParseBlock<K, V, C> inner, Set<K> chainIndicators, Token<K, V> term) {
 		iner = inner;
@@ -55,11 +55,11 @@ public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 		ITree<Token<K, V>> expression = iner.parse(ctx);
 
 		Token<K, V> currentToken = ctx.tokens.current();
-		if (indicators.contains(currentToken.getKey())) {
+		if(indicators.contains(currentToken.getKey())) {
 			ITree<Token<K, V>> res = new Tree<>(trm);
 			res.addChild(expression);
 
-			while (indicators.contains(currentToken.getKey())) {
+			while(indicators.contains(currentToken.getKey())) {
 				res.addChild(new Tree<>(currentToken));
 				ctx.tokens.next();
 

@@ -19,7 +19,7 @@ public class NonInitialCommands {
 	 * Create a left-associative infix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -31,7 +31,7 @@ public class NonInitialCommands {
 	 * Create a right-associative infix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -43,7 +43,7 @@ public class NonInitialCommands {
 	 * Create a non-associative infix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -55,14 +55,13 @@ public class NonInitialCommands {
 	 * Create a chained operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @param chainSet
-	 *                The operators it forms a chain with.
+	 *        The operators it forms a chain with.
 	 *
 	 * @param marker
-	 *                The token to use as the AST node for the chained
-	 *                operators.
+	 *        The token to use as the AST node for the chained operators.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -75,7 +74,7 @@ public class NonInitialCommands {
 	 * Create a postfix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -89,16 +88,16 @@ public class NonInitialCommands {
 	 * This is an operator in form similar to array indexing.
 	 *
 	 * @param precedence
-	 *                The precedence of this operator
+	 *        The precedence of this operator
 	 *
 	 * @param insidePrecedence
-	 *                The precedence of the expression inside the operator
+	 *        The precedence of the expression inside the operator
 	 *
 	 * @param closer
-	 *                The token that closes the circumfix.
+	 *        The token that closes the circumfix.
 	 *
 	 * @param marker
-	 *                The token to use as the AST node for the operator.
+	 *        The token to use as the AST node for the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -115,20 +114,19 @@ public class NonInitialCommands {
 	 * This is like C's ?: operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @param insidePrecedence
-	 *                The precedence of the inner section of the operator.
+	 *        The precedence of the inner section of the operator.
 	 *
 	 * @param closer
-	 *                The token that marks the end of the inner section.
+	 *        The token that marks the end of the inner section.
 	 *
 	 * @param marker
-	 *                The token to use as the AST node for the operator.
+	 *        The token to use as the AST node for the operator.
 	 *
 	 * @param nonassoc
-	 *                True if the command is non-associative, false
-	 *                otherwise.
+	 *        True if the command is non-associative, false otherwise.
 	 *
 	 * @return A command implementing this operator.
 	 */

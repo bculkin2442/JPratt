@@ -14,10 +14,10 @@ public class StringToken implements Token<String, String> {
 	 * Create a new string token.
 	 *
 	 * @param ky
-	 *                The key for the token.
+	 *        The key for the token.
 	 *
 	 * @param vl
-	 *                The value for the token.
+	 *        The value for the token.
 	 */
 	public StringToken(final String ky, final String vl) {
 		key = ky;
@@ -47,19 +47,19 @@ public class StringToken implements Token<String, String> {
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof StringToken)) return false;
+		if(this == obj) return true;
+		if(obj == null) return false;
+		if(!(obj instanceof StringToken)) return false;
 
 		final StringToken other = (StringToken) obj;
 
-		if (key == null) {
-			if (other.key != null) return false;
-		} else if (!key.equals(other.key)) return false;
+		if(key == null) {
+			if(other.key != null) return false;
+		} else if(!key.equals(other.key)) return false;
 
-		if (val == null) {
-			if (other.val != null) return false;
-		} else if (!val.equals(other.val)) return false;
+		if(val == null) {
+			if(other.val != null) return false;
+		} else if(!val.equals(other.val)) return false;
 
 		return true;
 	}
@@ -73,7 +73,7 @@ public class StringToken implements Token<String, String> {
 	 * Create a new literal token (has same key/value).
 	 *
 	 * @param val
-	 *                The value for the literal token.
+	 *        The value for the literal token.
 	 *
 	 * @return A literal token with that key.
 	 */

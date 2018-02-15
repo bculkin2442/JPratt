@@ -11,7 +11,7 @@ public interface LangAST {
 	static LangAST fromToken(Token<String, String> token) throws EvaluatorException {
 		String key = token.getKey();
 
-		switch (key) {
+		switch(key) {
 		case "(literal)":
 			return LiteralAST.fromToken(token);
 		default:

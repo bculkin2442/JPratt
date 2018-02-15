@@ -14,13 +14,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class GroupingCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	private final ParseBlock<K, V, C> innerBlock;
@@ -31,10 +31,10 @@ public class GroupingCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	 * Create a new grouping command.
 	 *
 	 * @param inner
-	 *                The inner block.
+	 *        The inner block.
 	 *
 	 * @param marker
-	 *                The token to use as the node in the AST.
+	 *        The token to use as the node in the AST.
 	 */
 	public GroupingCommand(final ParseBlock<K, V, C> inner, final Token<K, V> marker) {
 		innerBlock = inner;

@@ -15,13 +15,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	private final InitialCommand<K, V, C> internl;
@@ -32,10 +32,10 @@ public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<
 	 * Create a new transforming initial command.
 	 *
 	 * @param internal
-	 *                The initial command to delegate to.
+	 *        The initial command to delegate to.
 	 *
 	 * @param transform
-	 *                The transform to apply to the returned tree.
+	 *        The transform to apply to the returned tree.
 	 */
 	public TransformingInitialCommand(final InitialCommand<K, V, C> internal,
 			final UnaryOperator<ITree<Token<K, V>>> transform) {

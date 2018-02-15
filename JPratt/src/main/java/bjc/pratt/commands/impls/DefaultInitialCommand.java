@@ -12,13 +12,13 @@ import bjc.utils.parserutils.ParserException;
  * @author EVE
  *
  * @param <K>
- *                The key type of the token.
+ *        The key type of the token.
  *
  * @param <V>
- *                The value type of the token.
+ *        The value type of the token.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class DefaultInitialCommand<K, V, C> implements InitialCommand<K, V, C> {
 	@Override

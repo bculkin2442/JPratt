@@ -21,13 +21,13 @@ import bjc.utils.parserutils.ParserException;
  * @author EVE
  *
  * @param <K>
- *                The key type for the tokens.
+ *        The key type for the tokens.
  *
  * @param <V>
- *                The value type for the tokens.
+ *        The value type for the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  *
  *
  */
@@ -83,26 +83,25 @@ public class PrattParser<K, V, C> {
 	 * Parse an expression.
 	 *
 	 * @param precedence
-	 *                The initial precedence for the expression.
+	 *        The initial precedence for the expression.
 	 *
 	 * @param tokens
-	 *                The tokens for the expression.
+	 *        The tokens for the expression.
 	 *
 	 * @param state
-	 *                The state of the parser.
+	 *        The state of the parser.
 	 *
 	 * @param isStatement
-	 *                Whether or not to parse statements.
+	 *        Whether or not to parse statements.
 	 *
 	 * @return The expression as an AST.
 	 *
 	 * @throws ParserException
-	 *                 If something goes wrong during parsing.
+	 *         If something goes wrong during parsing.
 	 */
 	public ITree<Token<K, V>> parseExpression(final int precedence, final TokenStream<K, V> tokens, final C state,
 			final boolean isStatement) throws ParserException {
-		if (precedence < 0)
-			throw new IllegalArgumentException("Precedence must be greater than zero");
+		if(precedence < 0) throw new IllegalArgumentException("Precedence must be greater than zero");
 
 		ParserContext<K, V, C> parserContext = new ParserContext<>(tokens, this, state);
 
@@ -118,7 +117,7 @@ public class PrattParser<K, V, C> {
 
 		int rightPrec = Integer.MAX_VALUE;
 
-		while (true) {
+		while(true) {
 			final Token<K, V> tok = tokens.current();
 
 			final K key = tok.getKey();
@@ -127,7 +126,7 @@ public class PrattParser<K, V, C> {
 
 			final int leftBind = leftCommand.leftBinding();
 
-			if (NumberUtils.between(precedence, rightPrec, leftBind)) {
+			if(NumberUtils.between(precedence, rightPrec, leftBind)) {
 				tokens.next();
 
 				ast = leftCommand.denote(ast, tok, parserContext);
@@ -144,10 +143,10 @@ public class PrattParser<K, V, C> {
 	 * Add a non-initial command to this parser.
 	 *
 	 * @param marker
-	 *                The key that marks the command.
+	 *        The key that marks the command.
 	 *
 	 * @param comm
-	 *                The command.
+	 *        The command.
 	 */
 	public void addNonInitialCommand(final K marker, final NonInitialCommand<K, V, C> comm) {
 		leftCommands.put(marker, comm);
@@ -157,10 +156,10 @@ public class PrattParser<K, V, C> {
 	 * Add a initial command to this parser.
 	 *
 	 * @param marker
-	 *                The key that marks the command.
+	 *        The key that marks the command.
 	 *
 	 * @param comm
-	 *                The command.
+	 *        The command.
 	 */
 	public void addInitialCommand(final K marker, final InitialCommand<K, V, C> comm) {
 		nullCommands.put(marker, comm);
@@ -173,10 +172,10 @@ public class PrattParser<K, V, C> {
 	 * statements can only appear at the start of the expression.
 	 *
 	 * @param marker
-	 *                The key that marks the command.
+	 *        The key that marks the command.
 	 *
 	 * @param comm
-	 *                The command.
+	 *        The command.
 	 */
 	public void addStatementCommand(final K marker, final InitialCommand<K, V, C> comm) {
 		statementCommands.put(marker, comm);
@@ -186,13 +185,13 @@ public class PrattParser<K, V, C> {
 	 * Add a dependent non-initial command to this parser.
 	 *
 	 * @param dependant
-	 *                The dependent that precedes the command.
+	 *        The dependent that precedes the command.
 	 *
 	 * @param marker
-	 *                The token key that marks the command.
+	 *        The token key that marks the command.
 	 *
 	 * @param comm
-	 *                The command.
+	 *        The command.
 	 */
 	public void addDependantCommand(final K dependant, final K marker, final NonInitialCommand<K, V, C> comm) {
 		Map<K, NonInitialCommand<K, V, C>> dependantMap = dependantLeftCommands.getOrDefault(dependant,
@@ -205,62 +204,63 @@ public class PrattParser<K, V, C> {
 	 * Lookup an initial command.
 	 * 
 	 * @param isStatement
-	 *                Whether to look for statement commands or not.
+	 *        Whether to look for statement commands or not.
 	 * 
 	 * @param key
-	 *                The key of the command.
+	 *        The key of the command.
 	 * 
 	 * @param ctx
-	 *                The context for meta-commands.
+	 *        The context for meta-commands.
 	 * 
 	 * @return A command attached to that key, or a default implementation.
 	 */
 	public InitialCommand<K, V, C> getInitialCommand(boolean isStatement, K key, ParserContext<K, V, C> ctx) {
-		if (isStatement) {
-			if (metaStatementCommands.containsKey(key))
+		if(isStatement) {
+			if(metaStatementCommands.containsKey(key))
 				return metaStatementCommands.get(key).getCommand(ctx);
-			else if (statementCommands.containsKey(key))
-				return statementCommands.get(key);
+			else if(statementCommands.containsKey(key)) return statementCommands.get(key);
 		}
 
-		if (metaNullCommands.containsKey(key))
+		if(metaNullCommands.containsKey(key)) {
 			return metaNullCommands.get(key).getCommand(ctx);
-		else
-			return nullCommands.getOrDefault(key, DEFAULT_NULL_COMMAND);
+		}
+
+		return nullCommands.getOrDefault(key, DEFAULT_NULL_COMMAND);
 	}
 
 	/**
 	 * Lookup a non-initial command.
 	 * 
 	 * @param key
-	 *                The key of the command.
+	 *        The key of the command.
 	 * 
 	 * @param ctx
-	 *                The context for meta-commands.
+	 *        The context for meta-commands.
 	 * 
 	 * @return A command attached to that key, or a default implementation.
 	 */
 	public NonInitialCommand<K, V, C> getNonInitialCommand(K key, ParserContext<K, V, C> ctx) {
-		if (dependantMetaLeftCommands.containsKey(ctx.initial)) {
+		if(dependantMetaLeftCommands.containsKey(ctx.initial)) {
 			Map<K, MetaNonInitialCommand<K, V, C>> dependantCommands = dependantMetaLeftCommands
 					.get(ctx.initial);
 
-			if (dependantCommands.containsKey(key)) {
+			if(dependantCommands.containsKey(key)) {
 				return dependantCommands.get(key).getCommand(ctx);
 			}
 		}
 
-		if (dependantLeftCommands.containsKey(ctx.initial)) {
+		if(dependantLeftCommands.containsKey(ctx.initial)) {
 			Map<K, NonInitialCommand<K, V, C>> dependantCommands = dependantLeftCommands.get(ctx.initial);
 
-			if (dependantCommands.containsKey(key)) {
+			if(dependantCommands.containsKey(key)) {
 				return dependantCommands.getOrDefault(key, DEFAULT_LEFT_COMMAND);
 			}
 		}
 
-		if (metaLeftCommands.containsKey(key)) {
+		if(metaLeftCommands.containsKey(key)) {
 			return metaLeftCommands.get(key).getCommand(ctx);
-		} else
-			return leftCommands.getOrDefault(key, DEFAULT_LEFT_COMMAND);
+		}
+
+		return leftCommands.getOrDefault(key, DEFAULT_LEFT_COMMAND);
 	}
 }

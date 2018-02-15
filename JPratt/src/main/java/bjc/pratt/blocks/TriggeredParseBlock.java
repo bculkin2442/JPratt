@@ -13,11 +13,11 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	private final UnaryOperator<C>	onEntr;
@@ -29,13 +29,13 @@ public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	 * Create a new triggered parse block.
 	 *
 	 * @param onEnter
-	 *                The action to fire before parsing the block.
+	 *        The action to fire before parsing the block.
 	 *
 	 * @param onExit
-	 *                The action to fire after parsing the block.
+	 *        The action to fire after parsing the block.
 	 *
 	 * @param source
-	 *                The block to use for parsing.
+	 *        The block to use for parsing.
 	 */
 	public TriggeredParseBlock(final UnaryOperator<C> onEnter, final UnaryOperator<C> onExit,
 			final ParseBlock<K, V, C> source) {

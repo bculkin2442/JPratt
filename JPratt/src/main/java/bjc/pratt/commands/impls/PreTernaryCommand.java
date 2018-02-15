@@ -14,13 +14,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	private final Token<K, V> trm;
@@ -34,26 +34,26 @@ public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> 
 	 * Create a new ternary statement.
 	 *
 	 * @param cond
-	 *                The block for handling the condition.
+	 *        The block for handling the condition.
 	 *
 	 * @param op1
-	 *                The block for handling the first operator.
+	 *        The block for handling the first operator.
 	 *
 	 * @param op2
-	 *                The block for handling the second operator.
+	 *        The block for handling the second operator.
 	 *
 	 * @param term
-	 *                The token to use as the node for the AST.
+	 *        The token to use as the node for the AST.
 	 */
 	public PreTernaryCommand(final ParseBlock<K, V, C> cond, final ParseBlock<K, V, C> op1,
 			final ParseBlock<K, V, C> op2, final Token<K, V> term) {
 		super();
 
-		if (cond == null)
+		if(cond == null)
 			throw new NullPointerException("Cond block must not be null");
-		else if (op1 == null)
+		else if(op1 == null)
 			throw new NullPointerException("Op block #1 must not be null");
-		else if (op2 == null) throw new NullPointerException("Op block #2 must not be null");
+		else if(op2 == null) throw new NullPointerException("Op block #2 must not be null");
 
 		condBlock = cond;
 		opblock1 = op1;

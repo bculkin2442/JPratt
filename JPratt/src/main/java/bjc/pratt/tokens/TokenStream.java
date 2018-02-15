@@ -14,10 +14,10 @@ import bjc.utils.parserutils.ParserException;
  * @author EVE
  *
  * @param <K>
- *                The key type of the token.
+ *        The key type of the token.
  *
  * @param <V>
- *                The value type of the token.
+ *        The value type of the token.
  */
 public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	/**
@@ -33,7 +33,7 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 		 * Create a new exception with the specified message.
 		 *
 		 * @param msg
-		 *                The message of the exception.
+		 *        The message of the exception.
 		 */
 		public ExpectationException(final String msg) {
 			super(msg);
@@ -58,15 +58,15 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	 * set of types, and then consuming it.
 	 *
 	 * @param expectedKeys
-	 *                The expected values
+	 *        The expected values
 	 *
 	 * @throws ExpectationException
-	 *                 If the token is not one of the expected types.
+	 *         If the token is not one of the expected types.
 	 */
 	public void expect(final Set<K> expectedKeys) throws ExpectationException {
 		final K curKey = current().getKey();
 
-		if (!expectedKeys.contains(curKey)) {
+		if(!expectedKeys.contains(curKey)) {
 			final String expectedList = StringUtils.toEnglishList(expectedKeys.toArray(), false);
 
 			throw new ExpectationException("One of '" + expectedList + "' was expected, not " + curKey);
@@ -80,10 +80,10 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	 * set of types, and then consuming it.
 	 *
 	 * @param expectedKeys
-	 *                The expected values
+	 *        The expected values
 	 *
 	 * @throws ExpectationException
-	 *                 If the token is not one of the expected types.
+	 *         If the token is not one of the expected types.
 	 */
 	@SafeVarargs
 	public final void expect(final K... expectedKeys) throws ExpectationException {
@@ -94,7 +94,7 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	 * Check whether the head token is a certain type.
 	 *
 	 * @param val
-	 *                The type to check for.
+	 *        The type to check for.
 	 *
 	 * @return Whether or not the head token is of that type.
 	 */

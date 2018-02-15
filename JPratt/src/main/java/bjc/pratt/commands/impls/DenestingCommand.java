@@ -16,13 +16,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  *
  */
 public class DenestingCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
@@ -32,7 +32,7 @@ public class DenestingCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	 * Create a new transforming initial command.
 	 *
 	 * @param internal
-	 *                The initial command to delegate to.
+	 *        The initial command to delegate to.
 	 */
 	public DenestingCommand(final InitialCommand<K, V, C> internal) {
 		wrapped = internal;

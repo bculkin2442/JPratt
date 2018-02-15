@@ -15,13 +15,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	private final Set<K> chainWith;
@@ -32,13 +32,13 @@ public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	 * Create a new chained operator.
 	 *
 	 * @param precedence
-	 *                The precedence of this operator.
+	 *        The precedence of this operator.
 	 *
 	 * @param chainSet
-	 *                The operators to chain with.
+	 *        The operators to chain with.
 	 *
 	 * @param chainMarker
-	 *                The token to use as the node in the AST.
+	 *        The token to use as the node in the AST.
 	 */
 	public ChainCommand(final int precedence, final Set<K> chainSet, final Token<K, V> chainMarker) {
 		super(precedence);
@@ -55,7 +55,7 @@ public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 
 		final ITree<Token<K, V>> res = new Tree<>(operator, operand, tree);
 
-		if (chainWith.contains(ctx.tokens.current().getKey())) {
+		if(chainWith.contains(ctx.tokens.current().getKey())) {
 			final Token<K, V> tok = ctx.tokens.current();
 			ctx.tokens.next();
 

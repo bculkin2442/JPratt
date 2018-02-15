@@ -8,12 +8,12 @@ import bjc.pratt.tokens.TokenStream;
  * @author EVE
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class ParserContext<K, V, C> {
 	/**
@@ -40,13 +40,13 @@ public class ParserContext<K, V, C> {
 	 * Create a new parser context.
 	 *
 	 * @param tokns
-	 *                The source of tokens.
+	 *        The source of tokens.
 	 *
 	 * @param prse
-	 *                The parser to call for sub expressions.
+	 *        The parser to call for sub expressions.
 	 *
 	 * @param stte
-	 *                Any state needing to be kept during parsing.
+	 *        Any state needing to be kept during parsing.
 	 */
 	public ParserContext(final TokenStream<K, V> tokns, final PrattParser<K, V, C> prse, final C stte) {
 		tokens = tokns;

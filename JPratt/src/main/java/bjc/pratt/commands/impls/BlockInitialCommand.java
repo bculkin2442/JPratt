@@ -12,13 +12,13 @@ import bjc.utils.parserutils.ParserException;
  *
  * @author bjculkin
  * @param <K>
- *                The token key type.
+ *        The token key type.
  *
  * @param <V>
- *                The token value type.
+ *        The token value type.
  *
  * @param <C>
- *                The parser state type.
+ *        The parser state type.
  *
  */
 public class BlockInitialCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
@@ -28,7 +28,7 @@ public class BlockInitialCommand<K, V, C> extends AbstractInitialCommand<K, V, C
 	 * Create a new block initial command.
 	 *
 	 * @param block
-	 *                The block to delegate to.
+	 *        The block to delegate to.
 	 */
 	public BlockInitialCommand(final ParseBlock<K, V, C> block) {
 		blck = block;

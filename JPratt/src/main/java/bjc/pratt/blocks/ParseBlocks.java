@@ -21,20 +21,19 @@ public class ParseBlocks {
 	 * Create a new repeating parse block.
 	 *
 	 * @param inner
-	 *                The parse block to repeat.
+	 *        The parse block to repeat.
 	 *
 	 * @param delim
-	 *                The token type that separates repetitions.
+	 *        The token type that separates repetitions.
 	 *
 	 * @param term
-	 *                The token type that terminates repetitions.
+	 *        The token type that terminates repetitions.
 	 *
 	 * @param mark
-	 *                The token to use as the node in the AST.
+	 *        The token to use as the node in the AST.
 	 *
 	 * @param action
-	 *                The action to perform on the state after every
-	 *                repetition.
+	 *        The action to perform on the state after every repetition.
 	 *
 	 * @return A configured repeating parse block.
 	 */
@@ -47,15 +46,14 @@ public class ParseBlocks {
 	 * Create a new triggered parse block.
 	 *
 	 * @param source
-	 *                The block to trigger around.
+	 *        The block to trigger around.
 	 *
 	 * @param onEnter
-	 *                The action to perform upon the state before entering
-	 *                the block.
+	 *        The action to perform upon the state before entering the
+	 *        block.
 	 *
 	 * @param onExit
-	 *                The action to perform upon the state after exiting the
-	 *                block.
+	 *        The action to perform upon the state after exiting the block.
 	 *
 	 * @return A configured trigger parse block.
 	 */
@@ -68,15 +66,15 @@ public class ParseBlocks {
 	 * Create a new simple parse block.
 	 *
 	 * @param precedence
-	 *                The precedence of the expression inside the block.
+	 *        The precedence of the expression inside the block.
 	 *
 	 * @param terminator
-	 *                The key type of the token expected after this block,
-	 *                or null if none is expected.
+	 *        The key type of the token expected after this block, or null
+	 *        if none is expected.
 	 *
 	 * @param validator
-	 *                The predicate to use to validate parsed expressions,
-	 *                or null if none is used.
+	 *        The predicate to use to validate parsed expressions, or null
+	 *        if none is used.
 	 *
 	 * @return A configured simple parse block.
 	 */

@@ -7,7 +7,7 @@ public interface LiteralAST extends LangAST {
 	static LiteralAST fromToken(Token<String, String> tok) {
 		return null;
 	}
-	
+
 	@Override
 	default TopDownTransformResult getEvaluationStrategy() {
 		return TopDownTransformResult.TRANSFORM;

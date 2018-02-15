@@ -14,13 +14,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class PostCircumfixCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	private final ParseBlock<K, V, C> innerBlock;
@@ -31,18 +31,18 @@ public class PostCircumfixCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	 * Create a new post-circumfix operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @param inner
-	 *                The block inside the expression.
+	 *        The block inside the expression.
 	 *
 	 * @param marker
-	 *                The token to use as the node for the AST.
+	 *        The token to use as the node for the AST.
 	 */
 	public PostCircumfixCommand(final int precedence, final ParseBlock<K, V, C> inner, final Token<K, V> marker) {
 		super(precedence);
 
-		if (inner == null) throw new NullPointerException("Inner block must not be null");
+		if(inner == null) throw new NullPointerException("Inner block must not be null");
 
 		innerBlock = inner;
 

@@ -23,9 +23,9 @@ final class Tokenizer implements Function<String, Token<String, String>> {
 
 	@Override
 	public Token<String, String> apply(final String strang) {
-		if (ops.contains(strang) || reserved.contains(strang))
+		if(ops.contains(strang) || reserved.contains(strang))
 			return litToken(strang);
-		else if (strang.matches("(?:[\\u00B2\\u00B3\\u00B9\\u2070]|[\\u2074-\\u2079])+")) {
+		else if(strang.matches("(?:[\\u00B2\\u00B3\\u00B9\\u2070]|[\\u2074-\\u2079])+")) {
 			/*
 			 * This regular expression matches series of unicode
 			 * super - scripts 1 - 9.

@@ -15,7 +15,7 @@ class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 			final ParserContext<String, String, TestContext> ctx) throws ParserException {
 		final Token<String, String> name = ctx.tokens.current();
 
-		switch (name.getKey()) {
+		switch(name.getKey()) {
 		case "(literal)":
 		case "(vref)":
 			ctx.tokens.next();

@@ -6,11 +6,11 @@ package bjc.pratt.tokens;
  * @author EVE
  *
  * @param <K>
- *                The key type of this token. Represents the type of the token.
+ *        The key type of this token. Represents the type of the token.
  *
  * @param <V>
- *                The value type of this token. Represents any additional data
- *                for the token.
+ *        The value type of this token. Represents any additional data for the
+ *        token.
  *
  */
 public interface Token<K, V> {

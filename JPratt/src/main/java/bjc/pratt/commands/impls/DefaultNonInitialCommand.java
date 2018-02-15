@@ -11,13 +11,13 @@ import bjc.utils.data.ITree;
  * @author EVE
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class DefaultNonInitialCommand<K, V, C> extends NonInitialCommand<K, V, C> {
 	@Override

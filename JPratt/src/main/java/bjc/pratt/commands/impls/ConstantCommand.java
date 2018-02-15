@@ -12,13 +12,13 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public class ConstantCommand<K, V, C> implements InitialCommand<K, V, C> {
 	private final ITree<Token<K, V>> val;
@@ -27,7 +27,7 @@ public class ConstantCommand<K, V, C> implements InitialCommand<K, V, C> {
 	 * Create a new constant.
 	 *
 	 * @param con
-	 *                The tree this constant represents.
+	 *        The tree this constant represents.
 	 */
 	public ConstantCommand(final ITree<Token<K, V>> con) {
 		val = con;

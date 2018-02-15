@@ -23,7 +23,7 @@ public class InitialCommands {
 	 * Create a new unary operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 *
 	 * @return A command implementing that operator.
 	 */
@@ -35,13 +35,13 @@ public class InitialCommands {
 	 * Create a new grouping operator.
 	 *
 	 * @param precedence
-	 *                The precedence of the expression in the operator.
+	 *        The precedence of the expression in the operator.
 	 *
 	 * @param term
-	 *                The type that closes the group.
+	 *        The type that closes the group.
 	 *
 	 * @param mark
-	 *                The token for the AST node of the group.
+	 *        The token for the AST node of the group.
 	 *
 	 * @return A command implementing the operator.
 	 */
@@ -65,22 +65,22 @@ public class InitialCommands {
 	 * Create a new pre-ternary operator, like an if-then-else statement.
 	 *
 	 * @param cond1
-	 *                The priority of the first block.
+	 *        The priority of the first block.
 	 *
 	 * @param block1
-	 *                The priority of the second block.
+	 *        The priority of the second block.
 	 *
 	 * @param block2
-	 *                The priority of the third block.
+	 *        The priority of the third block.
 	 *
 	 * @param mark1
-	 *                The marker that ends the first block.
+	 *        The marker that ends the first block.
 	 *
 	 * @param mark2
-	 *                The marker that ends the second block.
+	 *        The marker that ends the second block.
 	 *
 	 * @param term
-	 *                The token for the AST node of the group.
+	 *        The token for the AST node of the group.
 	 *
 	 * @return A command implementing the operator.
 	 */
@@ -97,7 +97,7 @@ public class InitialCommands {
 	 * Create a new named constant.
 	 *
 	 * @param val
-	 *                The value of the constant.
+	 *        The value of the constant.
 	 *
 	 * @return A command implementing the constant.
 	 */
@@ -109,32 +109,28 @@ public class InitialCommands {
 	 * Create a new delimited command. This is for block-like constructs.
 	 *
 	 * @param inner
-	 *                The precedence of the inner blocks.
+	 *        The precedence of the inner blocks.
 	 *
 	 * @param delim
-	 *                The marker between sub-blocks.
+	 *        The marker between sub-blocks.
 	 *
 	 * @param mark
-	 *                The block terminator.
+	 *        The block terminator.
 	 *
 	 * @param term
-	 *                The token for the AST node of the group.
+	 *        The token for the AST node of the group.
 	 *
 	 * @param onEnter
-	 *                The function to apply to the state on entering the
-	 *                block.
+	 *        The function to apply to the state on entering the block.
 	 *
 	 * @param onDelim
-	 *                The function to apply to the state on finishing a
-	 *                sub-block.
+	 *        The function to apply to the state on finishing a sub-block.
 	 *
 	 * @param onExit
-	 *                The function to apply to the state on exiting the
-	 *                block.
+	 *        The function to apply to the state on exiting the block.
 	 *
 	 * @param statement
-	 *                Whether or not the sub-blocks are statements or
-	 *                expressions.
+	 *        Whether or not the sub-blocks are statements or expressions.
 	 *
 	 * @return A command implementing the operator.
 	 */
@@ -161,7 +157,7 @@ public class InitialCommands {
 	 * parse blocks with commands.
 	 *
 	 * @param comm
-	 *                The command to denest.
+	 *        The command to denest.
 	 *
 	 * @return A command that denests the result of the provided command.
 	 */

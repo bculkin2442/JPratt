@@ -6,13 +6,13 @@ package bjc.pratt.commands;
  * @author bjculkin
  *
  * @param <K>
- *                The key type of the tokens.
+ *        The key type of the tokens.
  *
  * @param <V>
- *                The value type of the tokens.
+ *        The value type of the tokens.
  *
  * @param <C>
- *                The state type of the parser.
+ *        The state type of the parser.
  */
 public abstract class BinaryPostCommand<K, V, C> extends NonInitialCommand<K, V, C> {
 	private final int leftPower;
@@ -21,10 +21,10 @@ public abstract class BinaryPostCommand<K, V, C> extends NonInitialCommand<K, V,
 	 * Create a new operator with fixed precedence.
 	 *
 	 * @param precedence
-	 *                The precedence of the operator.
+	 *        The precedence of the operator.
 	 */
 	public BinaryPostCommand(final int precedence) {
-		if (precedence < 0) throw new IllegalArgumentException("Precedence must be non-negative");
+		if(precedence < 0) throw new IllegalArgumentException("Precedence must be non-negative");
 
 		leftPower = precedence;
 	}

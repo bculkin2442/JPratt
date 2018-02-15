@@ -19,7 +19,7 @@ class AssignCommand extends NonBinaryCommand<String, String, TestContext> {
 			throws ParserException {
 		final Token<String, String> name = operand.getHead();
 
-		switch (name.getKey()) {
+		switch(name.getKey()) {
 		case "(literal)":
 		case "(vref)":
 			break;

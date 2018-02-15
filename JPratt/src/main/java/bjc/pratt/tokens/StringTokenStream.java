@@ -22,7 +22,7 @@ public class StringTokenStream extends TokenStream<String, String> {
 	 * Create a new token stream from a iterator.
 	 *
 	 * @param itr
-	 *                The iterator to use.
+	 *        The iterator to use.
 	 *
 	 */
 	public StringTokenStream(final Iterator<Token<String, String>> itr) {
@@ -37,7 +37,7 @@ public class StringTokenStream extends TokenStream<String, String> {
 
 	@Override
 	public Token<String, String> next() {
-		if (iter.hasNext()) {
+		if(iter.hasNext()) {
 			curr = iter.next();
 		} else {
 			curr = litToken("(end)");
