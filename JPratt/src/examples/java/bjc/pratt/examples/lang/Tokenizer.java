@@ -33,6 +33,8 @@ final class Tokenizer implements Function<String, Token<String, String>> {
 			String subscript = strang;
 
 			return new StringToken("(superexp)", subscript);
-		} else return new StringToken("(literal)", strang);
+		} else {
+			return new StringToken("(literal)", strang);
+		}
 	}
 }

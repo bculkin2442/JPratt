@@ -146,7 +146,7 @@ public class PrattParserTest {
 				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken, LangAST::fromToken);
 
 				System.out.printf("\nAST-ized expression:\n%s", tokenTree);
-			} catch (final ParserException pex) {
+			} catch (ParserException pex) {
 				pex.printStackTrace();
 			}
 
