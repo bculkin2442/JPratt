@@ -26,8 +26,8 @@ import bjc.utils.parserutils.ParserException;
 public class RepeatingParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	private final ParseBlock<K, V, C> innerBlock;
 
-	private final K	delim;
-	private final K	term;
+	private final K delim;
+	private final K term;
 
 	private final UnaryOperator<C> onDelim;
 

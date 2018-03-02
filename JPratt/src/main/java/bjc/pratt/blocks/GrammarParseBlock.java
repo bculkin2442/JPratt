@@ -36,12 +36,12 @@ import bjc.utils.parserutils.ParserException;
 public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, C> {
 	private final PrattParser<K2, V2, C2> innr;
 
-	private final int	prcedence;
-	private final boolean	isStatemnt;
+	private final int prcedence;
+	private final boolean isStatemnt;
 
-	private final Function<TokenStream<K, V>, TokenStream<K2, V2>>		tkenTransform;
-	private final Isomorphism<C, C2>					stteTransform;
-	private final Function<ITree<Token<K2, V2>>, ITree<Token<K, V>>>	xpressionTransform;
+	private final Function<TokenStream<K, V>, TokenStream<K2, V2>> tkenTransform;
+	private final Isomorphism<C, C2> stteTransform;
+	private final Function<ITree<Token<K2, V2>>, ITree<Token<K, V>>> xpressionTransform;
 
 	/**
 	 * Create a new grammar parser block.

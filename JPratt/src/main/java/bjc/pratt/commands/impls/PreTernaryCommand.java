@@ -27,8 +27,8 @@ public class PreTernaryCommand<K, V, C> extends AbstractInitialCommand<K, V, C> 
 
 	private final ParseBlock<K, V, C> condBlock;
 
-	private final ParseBlock<K, V, C>	opblock1;
-	private final ParseBlock<K, V, C>	opblock2;
+	private final ParseBlock<K, V, C> opblock1;
+	private final ParseBlock<K, V, C> opblock2;
 
 	/**
 	 * Create a new ternary statement.

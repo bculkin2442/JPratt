@@ -20,8 +20,8 @@ import bjc.utils.parserutils.ParserException;
  *        The state type of the parser.
  */
 public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
-	private final UnaryOperator<C>	onEntr;
-	private final UnaryOperator<C>	onExt;
+	private final UnaryOperator<C> onEntr;
+	private final UnaryOperator<C> onExt;
 
 	private final ParseBlock<K, V, C> sourc;
 

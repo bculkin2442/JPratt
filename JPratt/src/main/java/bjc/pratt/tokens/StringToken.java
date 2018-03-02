@@ -7,8 +7,8 @@ package bjc.pratt.tokens;
  *
  */
 public class StringToken implements Token<String, String> {
-	private final String	key;
-	private final String	val;
+	private final String key;
+	private final String val;
 
 	/**
 	 * Create a new string token.

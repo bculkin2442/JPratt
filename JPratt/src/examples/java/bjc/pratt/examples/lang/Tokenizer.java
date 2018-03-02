@@ -9,8 +9,8 @@ import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.Token;
 
 final class Tokenizer implements Function<String, Token<String, String>> {
-	private final Set<String>	ops;
-	private final Set<String>	reserved;
+	private final Set<String> ops;
+	private final Set<String> reserved;
 
 	@SuppressWarnings("unused")
 	private final TestContext ctx;

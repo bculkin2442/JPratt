@@ -35,31 +35,31 @@ public class PrattParser<K, V, C> {
 	/*
 	 * Default commands that error when used.
 	 */
-	private final NonInitialCommand<K, V, C>	DEFAULT_LEFT_COMMAND	= new DefaultNonInitialCommand<>();
-	private final InitialCommand<K, V, C>		DEFAULT_NULL_COMMAND	= new DefaultInitialCommand<>();
+	private final NonInitialCommand<K, V, C> DEFAULT_LEFT_COMMAND = new DefaultNonInitialCommand<>();
+	private final InitialCommand<K, V, C> DEFAULT_NULL_COMMAND = new DefaultInitialCommand<>();
 
 	/*
 	 * Left-commands that depend on what the null command was.
 	 */
-	private final Map<K, Map<K, NonInitialCommand<K, V, C>>>	dependantLeftCommands;
-	private final Map<K, Map<K, MetaNonInitialCommand<K, V, C>>>	dependantMetaLeftCommands;
+	private final Map<K, Map<K, NonInitialCommand<K, V, C>>> dependantLeftCommands;
+	private final Map<K, Map<K, MetaNonInitialCommand<K, V, C>>> dependantMetaLeftCommands;
 	/*
 	 * The left commands.
 	 */
-	private final Map<K, NonInitialCommand<K, V, C>>	leftCommands;
-	private final Map<K, MetaNonInitialCommand<K, V, C>>	metaLeftCommands;
+	private final Map<K, NonInitialCommand<K, V, C>> leftCommands;
+	private final Map<K, MetaNonInitialCommand<K, V, C>> metaLeftCommands;
 
 	/*
 	 * The initial commands.
 	 */
-	private final Map<K, InitialCommand<K, V, C>>		nullCommands;
-	private final Map<K, MetaInitialCommand<K, V, C>>	metaNullCommands;
+	private final Map<K, InitialCommand<K, V, C>> nullCommands;
+	private final Map<K, MetaInitialCommand<K, V, C>> metaNullCommands;
 
 	/*
 	 * Initial commands only checked for statements.
 	 */
-	private final Map<K, InitialCommand<K, V, C>>		statementCommands;
-	private final Map<K, MetaInitialCommand<K, V, C>>	metaStatementCommands;
+	private final Map<K, InitialCommand<K, V, C>> statementCommands;
+	private final Map<K, MetaInitialCommand<K, V, C>> metaStatementCommands;
 
 	/**
 	 * Create a new Pratt parser.
