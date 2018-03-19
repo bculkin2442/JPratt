@@ -9,20 +9,64 @@ import bjc.utils.data.TopDownTransformResult;
  * @author student
  *
  */
-public interface LiteralAST extends LangAST {
+public abstract class LiteralAST extends LangAST {
+	public static enum LiteralType {
+		INTEGER, STRING, BOOLEAN
+	}
+	
+	public final LiteralType type;
+	
+	protected LiteralAST(LiteralType typ) {
+		super(ASTType.LITERAL);
+		
+		type = typ;
+	}
 	/**
 	 * Create a new literal AST
 	 * 
 	 * @param tok
-	 *            The token to build from.
+	 *            The token value to build from.
 	 * @return The AST for the token.
 	 */
-	static LiteralAST fromToken(Token<String, String> tok) {
-		return null;
+	public static LiteralAST fromToken(String tok) {
+		if(tok.matches("[+-]?\\d+")) {
+			return new IntegerAST(Integer.parseInt(tok));
+		} else if(tok.equalsIgnoreCase("true")) {
+			return new BooleanAST(true);
+		} else if(tok.equalsIgnoreCase("false")) {
+			return new BooleanAST(false);
+		}
+		
+		return new StringAST("RAW: " + tok);
 	}
 
 	@Override
-	default TopDownTransformResult getEvaluationStrategy() {
+	public TopDownTransformResult getEvaluationStrategy() {
 		return TopDownTransformResult.TRANSFORM;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LiteralAST other = (LiteralAST) obj;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "LiteralAST [type=" + type + "]";
 	}
 }

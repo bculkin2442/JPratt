@@ -11,13 +11,23 @@ import bjc.utils.data.TopDownTransformResult;
  * @author student
  *
  */
-public interface LangAST {
+public abstract class LangAST {
+	public static enum ASTType {
+		LITERAL, OPERATOR
+	}
+	
+	public final ASTType type;
+	
+	protected LangAST(ASTType typ) {
+		type = typ;
+	}
+	
 	/**
 	 * Evaluate the AST.
 	 * 
 	 * @return The evaluated AST
 	 */
-	LangResult toResult();
+	public abstract LangResult toResult();
 
 	/**
 	 * Create an AST from a token.
@@ -28,16 +38,18 @@ public interface LangAST {
 	 * @throws EvaluatorException
 	 *             If something goes wrong.
 	 */
-	static LangAST fromToken(Token<String, String> token) throws EvaluatorException {
+	public static LangAST fromToken(Token<String, String> token) throws EvaluatorException {
 		String key = token.getKey();
 
 		switch (key) {
 		case "(literal)":
-			return LiteralAST.fromToken(token);
+			return LiteralAST.fromToken(token.getValue());
 		default:
 			String msg = String.format("Unknown token type '%s'", key);
 
-			throw new EvaluatorException(msg);
+			// @TODO uncomment this later
+			//throw new EvaluatorException(msg);
+			return new StringAST("RAW: " + token.toString());
 		}
 	}
 
@@ -46,7 +58,34 @@ public interface LangAST {
 	 * 
 	 * @return The way to evaluate the AST node.
 	 */
-	default TopDownTransformResult getEvaluationStrategy() {
+	public TopDownTransformResult getEvaluationStrategy() {
 		return TopDownTransformResult.PUSHDOWN;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LangAST other = (LangAST) obj;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "LangAST [type=" + type + "]";
 	}
 }

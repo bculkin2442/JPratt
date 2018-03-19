@@ -36,6 +36,7 @@ import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.funcdata.IList;
+import bjc.utils.functypes.ID;
 import bjc.utils.parserutils.ParserException;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
@@ -53,7 +54,7 @@ public class PrattParserTest {
 	 * Main method.
 	 *
 	 * @param args
-	 *        Unused CLI arguments.
+	 *            Unused CLI arguments.
 	 */
 	public static void main(final String[] args) {
 		/*
@@ -124,9 +125,8 @@ public class PrattParserTest {
 		System.out.print("Enter a command (blank line to exit): ");
 		String ln = scn.nextLine();
 
-		while(!ln.trim().equals("")) {
-			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved,
-					ctx);
+		while (!ln.trim().equals("")) {
+			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved, ctx);
 
 			try {
 				final StringTokenStream tokenStream = new StringTokenStream(tokens);
@@ -136,20 +136,20 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				final ITree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx,
-						true);
+				final ITree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
 
-				if(!tokenStream.headIs("(end)")) {
+				if (!tokenStream.headIs("(end)")) {
 					System.out.println("\nMultiple expressions on line");
 				}
 
 				System.out.printf("\nParsed expression:\n%s", rawTree);
 
-				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken,
-						LangAST::fromToken);
+				final Object ast = rawTree.collapse(new LeafConverter(), new NodeCollapser(), ID.id());
 
-				System.out.printf("\nAST-ized expression:\n%s", tokenTree);
-			} catch(ParserException pex) {
+				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken, LangAST::fromToken);
+
+				System.out.printf("\nAST-ized expression:\n%s\nNEW:\n%s", tokenTree, ast);
+			} catch (ParserException pex) {
 				pex.printStackTrace();
 			}
 
@@ -169,19 +169,20 @@ public class PrattParserTest {
 
 		final List<String> splitTokens = new LinkedList<>();
 
-		for(final String raw : rawTokens) {
-			if(raw.equals("")) continue;
+		for (final String raw : rawTokens) {
+			if (raw.equals(""))
+				continue;
 
 			boolean doSplit = false;
 
-			for(final String op : ops) {
-				if(raw.contains(op)) {
+			for (final String op : ops) {
+				if (raw.contains(op)) {
 					doSplit = true;
 					break;
 				}
 			}
 
-			if(doSplit) {
+			if (doSplit) {
 				IList<String> splitStrangs = split.split(raw);
 				splitStrangs.removeMatching("");
 
@@ -244,8 +245,7 @@ public class PrattParserTest {
 		/*
 		 * Inline conditional.
 		 */
-		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"),
-				false);
+		final NonInitialCommand<String, String, TestContext> ifElse = ternary(6, 0, "else", litToken("cond"), false);
 		parser.addNonInitialCommand("if", ifElse);
 
 		/*
@@ -319,8 +319,7 @@ public class PrattParserTest {
 		/*
 		 * Array indexing.
 		 */
-		final NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]",
-				litToken("idx"));
+		final NonInitialCommand<String, String, TestContext> arrayIdx = postCircumfix(60, 0, "]", litToken("idx"));
 		parser.addNonInitialCommand("[", arrayIdx);
 
 		/*
@@ -346,15 +345,15 @@ public class PrattParserTest {
 		/*
 		 * Array literals.
 		 */
-		final InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]",
-				litToken("array"), idfun, idfun, idfun, false);
+		final InitialCommand<String, String, TestContext> arrayLiteral = delimited(0, ",", "]", litToken("array"),
+				idfun, idfun, idfun, false);
 		parser.addInitialCommand("[", arrayLiteral);
 
 		/*
 		 * JSON literals.
 		 */
-		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"),
-				idfun, idfun, idfun, false);
+		final InitialCommand<String, String, TestContext> jsonLiteral = delimited(0, ",", "}", litToken("json"), idfun,
+				idfun, idfun, false);
 		parser.addInitialCommand("{", jsonLiteral);
 
 		/*
