@@ -40,17 +40,16 @@ import bjc.utils.parserutils.splitter.TokenSplitter;
  *
  */
 public class PrattParserTest {
-	/**
-	 * Main method.
-	 *
-	 * @param args
-	 *            Unused CLI arguments.
-	 */
-	public static void main(final String[] args) {
+	public final static Set<String> ops;
+	public final static Set<String> reserved;
+	
+	static {
 		/*
+		 * Setup operator hash.
+		 * 
 		 * Use a linked hash set to preserve insertion order.
 		 */
-		final Set<String> ops = new LinkedHashSet<>();
+		ops = new LinkedHashSet<>();
 
 		ops.add("!!!");
 
@@ -70,11 +69,8 @@ public class PrattParserTest {
 		ops.addAll(Arrays.asList("(", ")"));
 		ops.addAll(Arrays.asList("[", "]"));
 		ops.addAll(Arrays.asList("{", "}"));
-
-		/*
-		 * Reserved words that represent themselves, not literals.
-		 */
-		final Set<String> reserved = new LinkedHashSet<>();
+		
+		reserved = new LinkedHashSet<>();
 		reserved.addAll(Arrays.asList("if", "then", "else"));
 		reserved.addAll(Arrays.asList("and", "or"));
 		reserved.addAll(Arrays.asList("begin", "end"));
@@ -82,7 +78,14 @@ public class PrattParserTest {
 		reserved.addAll(Arrays.asList("sqrt", "cbrt", "root"));
 		reserved.addAll(Arrays.asList("try", "throw", "catch", "finally"));
 		reserved.add("var");
-
+	}
+	/**
+	 * Main method.
+	 *
+	 * @param args
+	 *            Unused CLI arguments.
+	 */
+	public static void main(final String[] args) {
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
 
 		lo.addSimpleDelimiters(":=");
@@ -122,7 +125,7 @@ public class PrattParserTest {
 		String ln = scn.nextLine();
 
 		while (!ln.trim().equals("")) {
-			final Iterator<Token<String, String>> tokens = preprocessInput(ops, filtered, ln, reserved, ctx);
+			final Iterator<Token<String, String>> tokens = preprocessInput(ops, reserved, filtered, ln, ctx);
 
 			try {
 				final StringTokenStream tokenStream = new StringTokenStream(tokens);
@@ -140,8 +143,9 @@ public class PrattParserTest {
 
 				System.out.printf("\nParsed expression:\n%s", rawTree);
 
-				final Object ast = rawTree.collapse(new LeafConverter(), new NodeCollapser(), ID.id());
+				final LangAST ast = rawTree.collapse(new LeafConverter(), new NodeCollapser(), ID.id());
 
+				// Remove this once we have LangAST all done.
 				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken, LangAST::fromToken);
 
 				System.out.printf("\nAST-ized expression:\n%s\nNEW:\n%s", tokenTree, ast);
@@ -159,8 +163,8 @@ public class PrattParserTest {
 		scn.close();
 	}
 
-	private static Iterator<Token<String, String>> preprocessInput(final Set<String> ops, final TokenSplitter split,
-			final String ln, final Set<String> reserved, final TestContext ctx) {
+	private static Iterator<Token<String, String>> preprocessInput(final Set<String> ops, final Set<String> reserved,
+			final TokenSplitter split, final String ln, final TestContext ctx) {
 		final String[] rawTokens = ln.split("\\s+");
 
 		final List<String> splitTokens = new LinkedList<>();

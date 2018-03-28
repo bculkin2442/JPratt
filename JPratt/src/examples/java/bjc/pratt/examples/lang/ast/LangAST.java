@@ -47,8 +47,6 @@ public abstract class LangAST {
 		default:
 			String msg = String.format("Unknown token type '%s'", key);
 
-			// @TODO uncomment this later
-			//throw new EvaluatorException(msg);
 			return new StringAST("RAW: " + token.toString());
 		}
 	}

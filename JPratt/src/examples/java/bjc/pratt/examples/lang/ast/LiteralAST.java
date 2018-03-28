@@ -1,7 +1,7 @@
 package bjc.pratt.examples.lang.ast;
 
-import bjc.pratt.tokens.Token;
 import bjc.utils.data.TopDownTransformResult;
+import bjc.utils.parserutils.TokenUtils;
 
 /**
  * AST node for a literal.
@@ -11,7 +11,7 @@ import bjc.utils.data.TopDownTransformResult;
  */
 public abstract class LiteralAST extends LangAST {
 	public static enum LiteralType {
-		INTEGER, STRING, BOOLEAN
+		INTEGER, STRING, BOOLEAN, DOUBLE
 	}
 	
 	public final LiteralType type;
@@ -29,12 +29,14 @@ public abstract class LiteralAST extends LangAST {
 	 * @return The AST for the token.
 	 */
 	public static LiteralAST fromToken(String tok) {
-		if(tok.matches("[+-]?\\d+")) {
-			return new IntegerAST(Integer.parseInt(tok));
-		} else if(tok.equalsIgnoreCase("true")) {
+		if(tok.equalsIgnoreCase("true")) {
 			return new BooleanAST(true);
 		} else if(tok.equalsIgnoreCase("false")) {
 			return new BooleanAST(false);
+		} else if(tok.matches("[+-]?\\d+")) {
+			return new IntegerAST(Integer.parseInt(tok));
+		} else if(TokenUtils.isDouble(tok)) {
+			return new DoubleAST(Double.parseDouble(tok));
 		}
 		
 		return new StringAST("RAW: " + tok);

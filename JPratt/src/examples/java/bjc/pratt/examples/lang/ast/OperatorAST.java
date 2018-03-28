@@ -22,6 +22,7 @@ public abstract class OperatorAST extends LangAST {
 		
 		return null;
 	}
+	
 	@Override
 	public LangResult toResult() {
 		// TODO Auto-generated method stub
