@@ -1,17 +1,7 @@
 package bjc.pratt.examples.lang;
 
-import static bjc.pratt.commands.impls.InitialCommands.delimited;
-import static bjc.pratt.commands.impls.InitialCommands.grouping;
-import static bjc.pratt.commands.impls.InitialCommands.leaf;
-import static bjc.pratt.commands.impls.InitialCommands.preTernary;
-import static bjc.pratt.commands.impls.InitialCommands.unary;
-import static bjc.pratt.commands.impls.NonInitialCommands.chain;
-import static bjc.pratt.commands.impls.NonInitialCommands.infixLeft;
-import static bjc.pratt.commands.impls.NonInitialCommands.infixNon;
-import static bjc.pratt.commands.impls.NonInitialCommands.infixRight;
-import static bjc.pratt.commands.impls.NonInitialCommands.postCircumfix;
-import static bjc.pratt.commands.impls.NonInitialCommands.postfix;
-import static bjc.pratt.commands.impls.NonInitialCommands.ternary;
+import static bjc.pratt.commands.impls.InitialCommands.*;
+import static bjc.pratt.commands.impls.NonInitialCommands.*;
 import static bjc.pratt.tokens.StringToken.litToken;
 import static bjc.utils.functypes.ID.id;
 
@@ -64,8 +54,11 @@ public class PrattParserTest {
 
 		ops.add("!!!");
 
-		ops.addAll(Arrays.asList("->", "=>"));
 		ops.add(":=");
+		
+		ops.add("|>");
+		
+		ops.addAll(Arrays.asList("->", "=>"));
 		ops.addAll(Arrays.asList("||", "&&"));
 		ops.addAll(Arrays.asList("<=", ">="));
 
@@ -92,8 +85,11 @@ public class PrattParserTest {
 
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
 
-		lo.addSimpleDelimiters("->");
 		lo.addSimpleDelimiters(":=");
+		
+		lo.addSimpleDelimiters("|>");
+		
+		lo.addSimpleDelimiters("->, =>");
 		lo.addSimpleDelimiters("||", "&&");
 		lo.addSimpleDelimiters("<=", ">=");
 
@@ -258,6 +254,11 @@ public class PrattParserTest {
 		 */
 		parser.addNonInitialCommand("->", infixRight(11));
 
+		/*
+		 * Pipeline operator.
+		 */
+		parser.addNonInitialCommand("|>", infixLeft(12));
+		
 		/*
 		 * Non-short circuiting condtionals.
 		 */
