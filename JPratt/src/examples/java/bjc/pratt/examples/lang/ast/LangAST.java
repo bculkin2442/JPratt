@@ -12,16 +12,32 @@ import bjc.utils.data.TopDownTransformResult;
  *
  */
 public abstract class LangAST {
+	/**
+	 * The possible type of the AST nodes.
+	 * 
+	 * @author student
+	 *
+	 */
 	public static enum ASTType {
-		LITERAL, OPERATOR
+		/**
+		 * An AST literal
+		 */
+		LITERAL,
+		/**
+		 * An AST operator
+		 */
+		OPERATOR
 	}
-	
+
+	/**
+	 * The type of the node.
+	 */
 	public final ASTType type;
-	
+
 	protected LangAST(ASTType typ) {
 		type = typ;
 	}
-	
+
 	/**
 	 * Evaluate the AST.
 	 * 
@@ -45,7 +61,7 @@ public abstract class LangAST {
 		case "(literal)":
 			return LiteralAST.fromToken(token.getValue());
 		default:
-			String msg = String.format("Unknown token type '%s'", key);
+			// String msg = String.format("Unknown token type '%s'", key);
 
 			return new StringAST("RAW: " + token.toString());
 		}
