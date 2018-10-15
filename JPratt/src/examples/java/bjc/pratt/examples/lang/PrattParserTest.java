@@ -18,7 +18,6 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.PrattParser;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.commands.NonInitialCommand;
-import bjc.pratt.examples.lang.ast.LangAST;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
@@ -26,7 +25,6 @@ import bjc.pratt.tokens.Token;
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.funcdata.IList;
-import bjc.utils.functypes.ID;
 import bjc.utils.parserutils.ParserException;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
@@ -40,8 +38,8 @@ import bjc.utils.parserutils.splitter.TokenSplitter;
  *
  */
 public class PrattParserTest {
-	public final static Set<String> ops;
-	public final static Set<String> reserved;
+	private final static Set<String> ops;
+	private final static Set<String> reserved;
 	
 	static {
 		/*
@@ -55,7 +53,7 @@ public class PrattParserTest {
 
 		ops.add(":=");
 		
-		ops.add("|>");
+		ops.addAll(Arrays.asList("|>", "[|]"));
 		
 		ops.addAll(Arrays.asList("->", "=>"));
 		ops.addAll(Arrays.asList("||", "&&"));
@@ -90,12 +88,12 @@ public class PrattParserTest {
 
 		lo.addSimpleDelimiters(":=");
 		
-		lo.addSimpleDelimiters("|>");
+		lo.addSimpleDelimiters("|>", "[|]");
 		
 		lo.addSimpleDelimiters("->, =>");
 		lo.addSimpleDelimiters("||", "&&");
 		lo.addSimpleDelimiters("<=", ">=");
-
+		
 		lo.addSimpleDelimiters("\u00B1"); // Unicode plus/minus
 		lo.addSimpleDelimiters(".", ",", ";", ":");
 		lo.addSimpleDelimiters("=", "<", ">");
@@ -142,13 +140,6 @@ public class PrattParserTest {
 				}
 
 				System.out.printf("\nParsed expression:\n%s", rawTree);
-
-				final LangAST ast = rawTree.collapse(new LeafConverter(), new NodeCollapser(), ID.id());
-
-				// Remove this once we have LangAST all done.
-				final ITree<LangAST> tokenTree = rawTree.rebuildTree(LangAST::fromToken, LangAST::fromToken);
-
-				System.out.printf("\nAST-ized expression:\n%s\nNEW:\n%s", tokenTree, ast);
 			} catch (ParserException pex) {
 				pex.printStackTrace();
 			}
@@ -163,9 +154,9 @@ public class PrattParserTest {
 		scn.close();
 	}
 
-	private static Iterator<Token<String, String>> preprocessInput(final Set<String> ops, final Set<String> reserved,
+	private static Iterator<Token<String, String>> preprocessInput(final Set<String> oops, final Set<String> reservd,
 			final TokenSplitter split, final String ln, final TestContext ctx) {
-		final String[] rawTokens = ln.split("\\s+");
+		final String[] rawTokens = ln.split("\\r\\.\\r");
 
 		final List<String> splitTokens = new LinkedList<>();
 
@@ -175,20 +166,22 @@ public class PrattParserTest {
 
 			boolean doSplit = false;
 
-			for (final String op : ops) {
+			for (final String op : oops) {
 				if (raw.contains(op)) {
 					doSplit = true;
 					break;
 				}
 			}
 
-			if (doSplit) {
-				IList<String> splitStrangs = split.split(raw);
+			String strang = raw.replaceAll("\\.(\\.+)", "$1");
+			
+			if (doSplit) {	
+				IList<String> splitStrangs = split.split(strang);
 				splitStrangs.removeMatching("");
 
 				splitStrangs.forEach(splitTokens::add);
 			} else {
-				splitTokens.add(raw);
+				splitTokens.add(strang);
 			}
 		}
 
@@ -196,7 +189,7 @@ public class PrattParserTest {
 
 		final Iterator<String> source = splitTokens.iterator();
 
-		final Tokenizer tokenzer = new Tokenizer(ops, reserved, ctx);
+		final Tokenizer tokenzer = new Tokenizer(oops, reservd, ctx);
 
 		final Iterator<Token<String, String>> tokens = new TransformIterator<>(source, tokenzer);
 
@@ -287,6 +280,11 @@ public class PrattParserTest {
 		parser.addNonInitialCommand("&&", ssRelJoin);
 		parser.addNonInitialCommand("||", ssRelJoin);
 
+		/*
+		 * Range operator.
+		 */
+		parser.addNonInitialCommand("[|]", infixNon(18));
+		
 		/*
 		 * Add/subtracting operators.
 		 */
