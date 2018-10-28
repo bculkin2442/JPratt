@@ -7,7 +7,7 @@
 	<name>JPratt</name>
 	<description>Pratt parser in java</description>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
