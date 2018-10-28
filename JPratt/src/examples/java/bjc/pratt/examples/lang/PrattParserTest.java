@@ -1,7 +1,17 @@
 package bjc.pratt.examples.lang;
 
-import static bjc.pratt.commands.impls.InitialCommands.*;
-import static bjc.pratt.commands.impls.NonInitialCommands.*;
+import static bjc.pratt.commands.impls.InitialCommands.delimited;
+import static bjc.pratt.commands.impls.InitialCommands.grouping;
+import static bjc.pratt.commands.impls.InitialCommands.leaf;
+import static bjc.pratt.commands.impls.InitialCommands.preTernary;
+import static bjc.pratt.commands.impls.InitialCommands.unary;
+import static bjc.pratt.commands.impls.NonInitialCommands.chain;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixLeft;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixNon;
+import static bjc.pratt.commands.impls.NonInitialCommands.infixRight;
+import static bjc.pratt.commands.impls.NonInitialCommands.postCircumfix;
+import static bjc.pratt.commands.impls.NonInitialCommands.postfix;
+import static bjc.pratt.commands.impls.NonInitialCommands.ternary;
 import static bjc.pratt.tokens.StringToken.litToken;
 import static bjc.utils.functypes.ID.id;
 
@@ -21,7 +31,6 @@ import bjc.pratt.commands.NonInitialCommand;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
-
 import bjc.utils.data.ITree;
 import bjc.utils.data.TransformIterator;
 import bjc.utils.funcdata.IList;
