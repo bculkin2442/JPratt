@@ -46,12 +46,12 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 	/**
 	 * Create a new grammar parser block.
 	 *
-	 * @param inner
-	 * @param precedence
-	 * @param isStatement
-	 * @param tokenTransform
-	 * @param stateTransform
-	 * @param expressionTransform
+	 * @param inner The inner grammar to parse.
+	 * @param precedence The precedence of the expression to parse.
+	 * @param isStatement Is the expression being parsed in statement context?
+	 * @param tokenTransform Function to transform to the new token type.
+	 * @param stateTransform Function to toggle between state types.
+	 * @param expressionTransform Function to transform  back to the normal token type.
 	 */
 	public GrammarParseBlock(final PrattParser<K2, V2, C2> inner, final int precedence, final boolean isStatement,
 			final Function<TokenStream<K, V>, TokenStream<K2, V2>> tokenTransform,
