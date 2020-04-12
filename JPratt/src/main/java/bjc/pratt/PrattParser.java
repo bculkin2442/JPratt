@@ -11,7 +11,7 @@ import bjc.pratt.commands.impls.DefaultInitialCommand;
 import bjc.pratt.commands.impls.DefaultNonInitialCommand;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
-import bjc.utils.data.ITree;
+import bjc.data.ITree;
 import bjc.utils.funcutils.NumberUtils;
 import bjc.utils.parserutils.ParserException;
 

@@ -2,8 +2,8 @@ package bjc.pratt.commands;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
-import bjc.utils.data.Tree;
+import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**

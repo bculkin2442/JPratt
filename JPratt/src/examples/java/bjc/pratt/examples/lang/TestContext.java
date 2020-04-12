@@ -1,11 +1,11 @@
 package bjc.pratt.examples.lang;
 
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
-import bjc.utils.esodata.Directory;
-import bjc.utils.esodata.SimpleDirectory;
-import bjc.utils.esodata.SimpleStack;
-import bjc.utils.esodata.Stack;
+import bjc.data.ITree;
+import bjc.esodata.Directory;
+import bjc.esodata.SimpleDirectory;
+import bjc.esodata.SimpleStack;
+import bjc.esodata.Stack;
 
 /**
  * Simple context for the parser.

@@ -3,7 +3,7 @@ package bjc.pratt.commands.impls;
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
+import bjc.data.ITree;
 import bjc.utils.parserutils.ParserException;
 
 /**

@@ -6,7 +6,7 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.PrattParser;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
-import bjc.utils.data.ITree;
+import bjc.data.ITree;
 import bjc.utils.funcutils.Isomorphism;
 import bjc.utils.parserutils.ParserException;
 

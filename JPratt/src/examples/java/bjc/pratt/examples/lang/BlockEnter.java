@@ -3,9 +3,9 @@ package bjc.pratt.examples.lang;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
-import bjc.utils.esodata.Directory;
-import bjc.utils.esodata.Stack;
+import bjc.data.ITree;
+import bjc.esodata.Directory;
+import bjc.esodata.Stack;
 
 final class BlockEnter implements UnaryOperator<TestContext> {
 	@Override

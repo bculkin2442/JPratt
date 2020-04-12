@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
+import bjc.data.ITree;
 
 /**
  * Utility class for creating common implementations of {@link ParseBlock}

@@ -9,7 +9,7 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.utils.data.ITree;
+import bjc.data.ITree;
 
 /**
  * * Contains factory methods for producing common implementations of
