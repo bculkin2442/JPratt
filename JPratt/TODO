@@ -1,0 +1,12 @@
+@TODO OCt 6, 2020 - Ben Culkin - :RenameMethods
+	Rename the command methods. Yes, I know that nullDenotation/leftDenotation
+	are the terms of art for Pratt parsing, but they aren't great for telling
+	someone who doesn't know the theory behind Pratt parsing.
+	
+	One idea for names is perhaps parseInitial/parseRemaining
+
+@TODO OCt 6, 2020 - Ben Culkin - :Exceptions
+	Since I've written this, I have rather cooled from exceptions. This should
+	probably see if it can be changed in some way to not use them, though given
+	that Java is missing some of the tools/this isn't designed correctly for
+	exception-less code, I may have to deal with it.
