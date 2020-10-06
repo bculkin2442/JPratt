@@ -11,22 +11,35 @@ import bjc.utils.parserutils.ParserException;
  * @author bjculkin
  *
  * @param <K>
- *        The key type of the tokens.
+ *            The key type of the tokens.
  *
  * @param <V>
- *        The value type of the tokens.
+ *            The value type of the tokens.
  *
  * @param <C>
- *        The state type of the parser.
+ *            The state type of the parser.
  */
 public abstract class AbstractInitialCommand<K, V, C> implements InitialCommand<K, V, C> {
 	@Override
-	public ITree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
-			throws ParserException {
+	public ITree<Token<K, V>> denote(final Token<K, V> operator,
+			final ParserContext<K, V, C> ctx) throws ParserException {
 		return intNullDenotation(operator, ctx);
 	}
 
-	protected abstract ITree<Token<K, V>> intNullDenotation(Token<K, V> operator, ParserContext<K, V, C> ctx)
-			throws ParserException;
+	/**
+	 * Internal null denotation method.
+	 * 
+	 * @param operator
+	 *                 The operator that was parsed.
+	 * @param ctx
+	 *                 The parser context at this point.
+	 * 
+	 * @return The tree that this method parsed.
+	 * 
+	 * @throws ParserException
+	 *                         If something went wrong while parsing.
+	 */
+	protected abstract ITree<Token<K, V>> intNullDenotation(Token<K, V> operator,
+			ParserContext<K, V, C> ctx) throws ParserException;
 
 }
