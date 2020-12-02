@@ -7,7 +7,7 @@ import bjc.pratt.PrattParser;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
 import bjc.data.ITree;
-import bjc.utils.funcutils.Isomorphism;
+import bjc.functypes.*;
 import bjc.utils.parserutils.ParserException;
 
 /**

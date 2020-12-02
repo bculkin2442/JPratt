@@ -21,6 +21,10 @@ import bjc.data.ITree;
 public class InitialCommands {
 	/**
 	 * Create a new unary operator.
+	 * 
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the operator.
@@ -33,6 +37,10 @@ public class InitialCommands {
 
 	/**
 	 * Create a new grouping operator.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the expression in the operator.
@@ -54,6 +62,10 @@ public class InitialCommands {
 
 	/**
 	 * Create a new leaf operator.
+	 * 
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @return A command implementing the operator.
 	 */
@@ -63,6 +75,10 @@ public class InitialCommands {
 
 	/**
 	 * Create a new pre-ternary operator, like an if-then-else statement.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param cond1
 	 *        The priority of the first block.
@@ -96,6 +112,10 @@ public class InitialCommands {
 	/**
 	 * Create a new named constant.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param val
 	 *        The value of the constant.
 	 *
@@ -107,6 +127,10 @@ public class InitialCommands {
 
 	/**
 	 * Create a new delimited command. This is for block-like constructs.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param inner
 	 *        The precedence of the inner blocks.
@@ -155,6 +179,10 @@ public class InitialCommands {
 	 *
 	 * This removes one tree-level, and is useful when combining complex
 	 * parse blocks with commands.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param comm
 	 *        The command to denest.

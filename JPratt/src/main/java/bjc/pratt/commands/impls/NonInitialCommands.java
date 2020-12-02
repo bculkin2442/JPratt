@@ -18,6 +18,10 @@ public class NonInitialCommands {
 	/**
 	 * Create a left-associative infix operator.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param precedence
 	 *        The precedence of the operator.
 	 *
@@ -29,6 +33,10 @@ public class NonInitialCommands {
 
 	/**
 	 * Create a right-associative infix operator.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the operator.
@@ -42,6 +50,10 @@ public class NonInitialCommands {
 	/**
 	 * Create a non-associative infix operator.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param precedence
 	 *        The precedence of the operator.
 	 *
@@ -53,6 +65,10 @@ public class NonInitialCommands {
 
 	/**
 	 * Create a chained operator.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the operator.
@@ -73,6 +89,10 @@ public class NonInitialCommands {
 	/**
 	 * Create a postfix operator.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param precedence
 	 *        The precedence of the operator.
 	 *
@@ -86,6 +106,10 @@ public class NonInitialCommands {
 	 * Create a post-circumfix operator.
 	 *
 	 * This is an operator in form similar to array indexing.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of this operator
@@ -112,6 +136,10 @@ public class NonInitialCommands {
 	 * Create a ternary operator.
 	 *
 	 * This is like C's ?: operator.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the operator.

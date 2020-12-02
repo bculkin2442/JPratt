@@ -20,6 +20,10 @@ public class ParseBlocks {
 	/**
 	 * Create a new repeating parse block.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param inner
 	 *        The parse block to repeat.
 	 *
@@ -45,6 +49,10 @@ public class ParseBlocks {
 	/**
 	 * Create a new triggered parse block.
 	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 *
 	 * @param source
 	 *        The block to trigger around.
 	 *
@@ -64,6 +72,10 @@ public class ParseBlocks {
 
 	/**
 	 * Create a new simple parse block.
+	 *
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
 	 *
 	 * @param precedence
 	 *        The precedence of the expression inside the block.
