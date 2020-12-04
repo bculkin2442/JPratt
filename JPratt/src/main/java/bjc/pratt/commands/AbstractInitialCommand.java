@@ -2,7 +2,7 @@ package bjc.pratt.commands;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -21,7 +21,7 @@ import bjc.utils.parserutils.ParserException;
  */
 public abstract class AbstractInitialCommand<K, V, C> implements InitialCommand<K, V, C> {
 	@Override
-	public ITree<Token<K, V>> denote(final Token<K, V> operator,
+	public Tree<Token<K, V>> denote(final Token<K, V> operator,
 			final ParserContext<K, V, C> ctx) throws ParserException {
 		return intNullDenotation(operator, ctx);
 	}
@@ -39,7 +39,7 @@ public abstract class AbstractInitialCommand<K, V, C> implements InitialCommand<
 	 * @throws ParserException
 	 *                         If something went wrong while parsing.
 	 */
-	protected abstract ITree<Token<K, V>> intNullDenotation(Token<K, V> operator,
+	protected abstract Tree<Token<K, V>> intNullDenotation(Token<K, V> operator,
 			ParserContext<K, V, C> ctx) throws ParserException;
 
 }

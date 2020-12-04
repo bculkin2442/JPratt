@@ -2,8 +2,8 @@ package bjc.pratt.commands;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -39,12 +39,12 @@ public abstract class BinaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> 
 	protected abstract int rightBinding();
 
 	@Override
-	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand,
+	public Tree<Token<K, V>> denote(final Tree<Token<K, V>> operand,
 			final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
-		final ITree<Token<K, V>> opr
+		final Tree<Token<K, V>> opr
 				= ctx.parse.parseExpression(rightBinding(), ctx.tokens, ctx.state, false);
 
-		return new Tree<>(operator, operand, opr);
+		return new SimpleTree<>(operator, operand, opr);
 	}
 }

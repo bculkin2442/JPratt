@@ -3,7 +3,7 @@ package bjc.pratt.commands.impls;
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -22,7 +22,7 @@ import bjc.utils.parserutils.ParserException;
  */
 public class DefaultInitialCommand<K, V, C> implements InitialCommand<K, V, C> {
 	@Override
-	public ITree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
+	public Tree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
 		throw new ParserException("Unexpected token " + operator);
 	}

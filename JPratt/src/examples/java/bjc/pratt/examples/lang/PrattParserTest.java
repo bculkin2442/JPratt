@@ -31,9 +31,9 @@ import bjc.pratt.commands.NonInitialCommand;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.data.TransformIterator;
-import bjc.funcdata.IList;
+import bjc.funcdata.ListEx;
 import bjc.utils.parserutils.ParserException;
 import bjc.utils.parserutils.splitter.ConfigurableTokenSplitter;
 import bjc.utils.parserutils.splitter.ExcludingTokenSplitter;
@@ -142,7 +142,7 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				final ITree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
+				final Tree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
 
 				if (!tokenStream.headIs("(end)")) {
 					System.out.println("\nMultiple expressions on line");
@@ -185,7 +185,7 @@ public class PrattParserTest {
 			String strang = raw.replaceAll("\\.(\\.+)", "$1");
 			
 			if (doSplit) {	
-				IList<String> splitStrangs = split.split(strang);
+				ListEx<String> splitStrangs = split.split(strang);
 				splitStrangs.removeMatching("");
 
 				splitStrangs.forEach(splitTokens::add);

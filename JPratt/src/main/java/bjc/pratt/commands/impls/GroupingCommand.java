@@ -4,8 +4,8 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.AbstractInitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -43,10 +43,10 @@ public class GroupingCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	}
 
 	@Override
-	protected ITree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
+	protected Tree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
-		final ITree<Token<K, V>> opr = innerBlock.parse(ctx);
+		final Tree<Token<K, V>> opr = innerBlock.parse(ctx);
 
-		return new Tree<>(mark, opr);
+		return new SimpleTree<>(mark, opr);
 	}
 }

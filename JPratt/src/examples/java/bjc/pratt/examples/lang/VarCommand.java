@@ -4,14 +4,14 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.commands.AbstractInitialCommand;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 
 	@Override
-	protected ITree<Token<String, String>> intNullDenotation(final Token<String, String> operator,
+	protected Tree<Token<String, String>> intNullDenotation(final Token<String, String> operator,
 			final ParserContext<String, String, TestContext> ctx) throws ParserException {
 		final Token<String, String> name = ctx.tokens.current();
 
@@ -26,11 +26,11 @@ class VarCommand extends AbstractInitialCommand<String, String, TestContext> {
 
 		ctx.tokens.expect(":=");
 
-		final ITree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
+		final Tree<Token<String, String>> body = ctx.parse.parseExpression(0, ctx.tokens, ctx.state, false);
 
 		ctx.state.scopes.top().putKey(name.getValue(), body);
 
-		return new Tree<>(new StringToken("var-bind", "var-bind"), new Tree<>(name), body);
+		return new SimpleTree<>(new StringToken("var-bind", "var-bind"), new SimpleTree<>(name), body);
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 
 /**
  * Utility class for creating common implementations of {@link ParseBlock}
@@ -91,7 +91,7 @@ public class ParseBlocks {
 	 * @return A configured simple parse block.
 	 */
 	public static <K, V, C> ParseBlock<K, V, C> simple(final int precedence, final K terminator,
-			final Predicate<ITree<Token<K, V>>> validator) {
+			final Predicate<Tree<Token<K, V>>> validator) {
 		return new SimpleParseBlock<>(precedence, validator, terminator);
 	}
 }

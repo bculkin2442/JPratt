@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -45,12 +45,12 @@ public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
 		final C newState = onEntr.apply(ctx.state);
 
 		final ParserContext<K, V, C> newCtx = new ParserContext<>(ctx.tokens, ctx.parse, newState);
 
-		final ITree<Token<K, V>> res = sourc.parse(newCtx);
+		final Tree<Token<K, V>> res = sourc.parse(newCtx);
 
 		ctx.state = onExt.apply(newState);
 

@@ -1,7 +1,7 @@
 package bjc.pratt.examples.lang;
 
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.esodata.Directory;
 import bjc.esodata.SimpleDirectory;
 import bjc.esodata.SimpleStack;
@@ -17,7 +17,7 @@ public class TestContext {
 	/**
 	 * The variable scoping information.
 	 */
-	public Stack<Directory<String, ITree<Token<String, String>>>> scopes;
+	public Stack<Directory<String, Tree<Token<String, String>>>> scopes;
 
 	/**
 	 * The current number of scopes inside this scope.

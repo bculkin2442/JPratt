@@ -2,7 +2,7 @@ package bjc.pratt.commands;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -37,7 +37,7 @@ public abstract class NonInitialCommand<K, V, C> {
 	 * @throws ParserException
 	 *         If something went wrong during parsing.
 	 */
-	public abstract ITree<Token<K, V>> denote(ITree<Token<K, V>> operand, Token<K, V> operator,
+	public abstract Tree<Token<K, V>> denote(Tree<Token<K, V>> operand, Token<K, V> operator,
 			ParserContext<K, V, C> ctx) throws ParserException;
 
 	/**

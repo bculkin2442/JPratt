@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -26,7 +26,7 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 
 	private final K term;
 
-	private final Predicate<ITree<Token<K, V>>> validatr;
+	private final Predicate<Tree<Token<K, V>>> validatr;
 
 	/**
 	 * Create a new block.
@@ -39,7 +39,7 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	 *        The token type that terminates the block. If this is null,
 	 *        don't check for a terminator.
 	 */
-	public SimpleParseBlock(final int precedence, final Predicate<ITree<Token<K, V>>> validator,
+	public SimpleParseBlock(final int precedence, final Predicate<Tree<Token<K, V>>> validator,
 			final K terminator) {
 		if(precedence < 0) throw new IllegalArgumentException("Precedence must be non-negative");
 
@@ -49,8 +49,8 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
-		final ITree<Token<K, V>> res = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
+	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final Tree<Token<K, V>> res = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
 
 		if(term != null) {
 			ctx.tokens.expect(term);

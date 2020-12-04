@@ -4,8 +4,8 @@ import java.util.Set;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -51,19 +51,19 @@ public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		ITree<Token<K, V>> expression = iner.parse(ctx);
+	public Tree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
+		Tree<Token<K, V>> expression = iner.parse(ctx);
 
 		Token<K, V> currentToken = ctx.tokens.current();
 		if(indicators.contains(currentToken.getKey())) {
-			ITree<Token<K, V>> res = new Tree<>(trm);
+			Tree<Token<K, V>> res = new SimpleTree<>(trm);
 			res.addChild(expression);
 
 			while(indicators.contains(currentToken.getKey())) {
-				res.addChild(new Tree<>(currentToken));
+				res.addChild(new SimpleTree<>(currentToken));
 				ctx.tokens.next();
 
-				ITree<Token<K, V>> innerExpression = iner.parse(ctx);
+				Tree<Token<K, V>> innerExpression = iner.parse(ctx);
 				res.addChild(innerExpression);
 
 				currentToken = ctx.tokens.current();

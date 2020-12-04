@@ -6,7 +6,7 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.PrattParser;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.functypes.*;
 import bjc.utils.parserutils.ParserException;
 
@@ -41,7 +41,7 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 
 	private final Function<TokenStream<K, V>, TokenStream<K2, V2>> tkenTransform;
 	private final Isomorphism<C, C2> stteTransform;
-	private final Function<ITree<Token<K2, V2>>, ITree<Token<K, V>>> xpressionTransform;
+	private final Function<Tree<Token<K2, V2>>, Tree<Token<K, V>>> xpressionTransform;
 
 	/**
 	 * Create a new grammar parser block.
@@ -56,7 +56,7 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 	public GrammarParseBlock(final PrattParser<K2, V2, C2> inner, final int precedence, final boolean isStatement,
 			final Function<TokenStream<K, V>, TokenStream<K2, V2>> tokenTransform,
 			final Isomorphism<C, C2> stateTransform,
-			final Function<ITree<Token<K2, V2>>, ITree<Token<K, V>>> expressionTransform) {
+			final Function<Tree<Token<K2, V2>>, Tree<Token<K, V>>> expressionTransform) {
 		innr = inner;
 		prcedence = precedence;
 		isStatemnt = isStatement;
@@ -66,12 +66,12 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
 		final C2 newState = stteTransform.to(ctx.state);
 
 		final TokenStream<K2, V2> newTokens = tkenTransform.apply(ctx.tokens);
 
-		final ITree<Token<K2, V2>> expression = innr.parseExpression(prcedence, newTokens, newState,
+		final Tree<Token<K2, V2>> expression = innr.parseExpression(prcedence, newTokens, newState,
 				isStatemnt);
 
 		ctx.state = stteTransform.from(newState);

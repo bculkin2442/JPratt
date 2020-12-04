@@ -3,8 +3,8 @@ package bjc.pratt.commands.impls;
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.BinaryPostCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -33,8 +33,8 @@ public class PostfixCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand, final Token<K, V> operator,
+	public Tree<Token<K, V>> denote(final Tree<Token<K, V>> operand, final Token<K, V> operator,
 			final ParserContext<K, V, C> ctx) throws ParserException {
-		return new Tree<>(operator, operand);
+		return new SimpleTree<>(operator, operand);
 	}
 }

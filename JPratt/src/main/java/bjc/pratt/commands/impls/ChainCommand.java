@@ -5,8 +5,8 @@ import java.util.Set;
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.BinaryPostCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -48,21 +48,21 @@ public class ChainCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand, final Token<K, V> operator,
+	public Tree<Token<K, V>> denote(final Tree<Token<K, V>> operand, final Token<K, V> operator,
 			final ParserContext<K, V, C> ctx) throws ParserException {
-		final ITree<Token<K, V>> tree = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state,
+		final Tree<Token<K, V>> tree = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state,
 				false);
 
-		final ITree<Token<K, V>> res = new Tree<>(operator, operand, tree);
+		final Tree<Token<K, V>> res = new SimpleTree<>(operator, operand, tree);
 
 		if(chainWith.contains(ctx.tokens.current().getKey())) {
 			final Token<K, V> tok = ctx.tokens.current();
 			ctx.tokens.next();
 
-			final ITree<Token<K, V>> other = denote(tree, tok,
+			final Tree<Token<K, V>> other = denote(tree, tok,
 					new ParserContext<>(ctx.tokens, ctx.parse, ctx.state));
 
-			return new Tree<>(chain, res, other);
+			return new SimpleTree<>(chain, res, other);
 		}
 
 		return res;

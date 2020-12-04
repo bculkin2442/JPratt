@@ -11,7 +11,7 @@ import bjc.pratt.commands.impls.DefaultInitialCommand;
 import bjc.pratt.commands.impls.DefaultNonInitialCommand;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.funcutils.NumberUtils;
 import bjc.utils.parserutils.ParserException;
 
@@ -99,7 +99,7 @@ public class PrattParser<K, V, C> {
 	 * @throws ParserException
 	 *         If something goes wrong during parsing.
 	 */
-	public ITree<Token<K, V>> parseExpression(final int precedence, final TokenStream<K, V> tokens, final C state,
+	public Tree<Token<K, V>> parseExpression(final int precedence, final TokenStream<K, V> tokens, final C state,
 			final boolean isStatement) throws ParserException {
 		if(precedence < 0) throw new IllegalArgumentException("Precedence must be greater than zero");
 
@@ -111,7 +111,7 @@ public class PrattParser<K, V, C> {
 		final K initKey = initToken.getKey();
 
 		InitialCommand<K, V, C> nullCommand = getInitialCommand(isStatement, initKey, parserContext);
-		ITree<Token<K, V>> ast = nullCommand.denote(initToken, parserContext);
+		Tree<Token<K, V>> ast = nullCommand.denote(initToken, parserContext);
 
 		parserContext.initial = initKey;
 

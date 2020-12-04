@@ -6,7 +6,7 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.commands.AbstractInitialCommand;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -26,7 +26,7 @@ import bjc.utils.parserutils.ParserException;
 public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<K, V, C> {
 	private final InitialCommand<K, V, C> internl;
 
-	private final UnaryOperator<ITree<Token<K, V>>> transfrm;
+	private final UnaryOperator<Tree<Token<K, V>>> transfrm;
 
 	/**
 	 * Create a new transforming initial command.
@@ -38,14 +38,14 @@ public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<
 	 *        The transform to apply to the returned tree.
 	 */
 	public TransformingInitialCommand(final InitialCommand<K, V, C> internal,
-			final UnaryOperator<ITree<Token<K, V>>> transform) {
+			final UnaryOperator<Tree<Token<K, V>>> transform) {
 		super();
 		internl = internal;
 		transfrm = transform;
 	}
 
 	@Override
-	protected ITree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
+	protected Tree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
 		return transfrm.apply(internl.denote(operator, ctx));
 	}

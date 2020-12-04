@@ -4,8 +4,8 @@ import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -72,13 +72,13 @@ public class RepeatingParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
-		final ITree<Token<K, V>> ret = new Tree<>(mark);
+	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final Tree<Token<K, V>> ret = new SimpleTree<>(mark);
 
 		Token<K, V> tok = ctx.tokens.current();
 
 		while(!tok.getKey().equals(term)) {
-			final ITree<Token<K, V>> kid = innerBlock.parse(ctx);
+			final Tree<Token<K, V>> kid = innerBlock.parse(ctx);
 			ret.addChild(kid);
 
 			tok = ctx.tokens.current();

@@ -4,8 +4,8 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.BinaryPostCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
 import bjc.data.Tree;
+import bjc.data.SimpleTree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -58,14 +58,14 @@ public class TernaryCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(final ITree<Token<K, V>> operand, final Token<K, V> operator,
+	public Tree<Token<K, V>> denote(final Tree<Token<K, V>> operand, final Token<K, V> operator,
 			final ParserContext<K, V, C> ctx) throws ParserException {
-		final ITree<Token<K, V>> inner = innerBlck.parse(ctx);
+		final Tree<Token<K, V>> inner = innerBlck.parse(ctx);
 
-		final ITree<Token<K, V>> outer = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state,
+		final Tree<Token<K, V>> outer = ctx.parse.parseExpression(1 + leftBinding(), ctx.tokens, ctx.state,
 				false);
 
-		return new Tree<>(mark, inner, operand, outer);
+		return new SimpleTree<>(mark, inner, operand, outer);
 	}
 
 	@Override

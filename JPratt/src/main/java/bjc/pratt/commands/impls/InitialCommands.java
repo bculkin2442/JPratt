@@ -9,7 +9,7 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 
 /**
  * * Contains factory methods for producing common implementations of
@@ -121,7 +121,7 @@ public class InitialCommands {
 	 *
 	 * @return A command implementing the constant.
 	 */
-	public static <K, V, C> InitialCommand<K, V, C> constant(final ITree<Token<K, V>> val) {
+	public static <K, V, C> InitialCommand<K, V, C> constant(final Tree<Token<K, V>> val) {
 		return new ConstantCommand<>(val);
 	}
 

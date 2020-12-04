@@ -3,7 +3,7 @@ package bjc.pratt.commands.impls;
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.ITree;
+import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**
@@ -21,7 +21,7 @@ import bjc.utils.parserutils.ParserException;
  *        The state type of the parser.
  */
 public class ConstantCommand<K, V, C> implements InitialCommand<K, V, C> {
-	private final ITree<Token<K, V>> val;
+	private final Tree<Token<K, V>> val;
 
 	/**
 	 * Create a new constant.
@@ -29,12 +29,12 @@ public class ConstantCommand<K, V, C> implements InitialCommand<K, V, C> {
 	 * @param con
 	 *        The tree this constant represents.
 	 */
-	public ConstantCommand(final ITree<Token<K, V>> con) {
+	public ConstantCommand(final Tree<Token<K, V>> con) {
 		val = con;
 	}
 
 	@Override
-	public ITree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
+	public Tree<Token<K, V>> denote(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
 		return val;
 	}
