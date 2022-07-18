@@ -9,6 +9,7 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
+import bjc.data.SimpleTree;
 import bjc.data.Tree;
 
 /**
@@ -191,5 +192,34 @@ public class InitialCommands {
 	 */
 	public static <K, V, C> InitialCommand<K, V, C> denest(final InitialCommand<K, V, C> comm) {
 		return new DenestingCommand<>(comm);
+	}
+	
+	/**
+	 * Create a new 'panfix' command.
+	 * 
+	 * Form is <term> <expr> <term> <expr> <term>
+	 * 
+	 * @param <K> The key type for the tokens. 
+	 * @param <V> The value type for the tokens.
+	 * @param <C> The context type for the tokens.
+	 * 
+	 * @param precedence The precedence for this operator
+	 * @param term The indicator for the operator
+	 * @param marker The token to mark this tree
+	 * 
+	 * @return A command that implements a panfix operator
+	 */
+	public static <K, V, C> InitialCommand<K, V, C> panfix(final int precedence, final K term, final Token<K, V> marker) {
+		return (operator, ctx) -> {
+			Tree<Token<K,V>> leftSide = ctx.parse.parseExpression(precedence + 1, ctx.tokens, ctx.state, false);
+			ctx.tokens.expect(term);
+			ctx.tokens.next();
+			
+			Tree<Token<K,V>> rightSide = ctx.parse.parseExpression(precedence + 1, ctx.tokens, ctx.state, false);
+			ctx.tokens.expect(term);
+			ctx.tokens.next();
+			
+			return new SimpleTree<>(marker, leftSide, rightSide);
+		};
 	}
 }

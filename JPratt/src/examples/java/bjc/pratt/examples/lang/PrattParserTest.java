@@ -266,7 +266,7 @@ public class PrattParserTest {
 		parser.addNonInitialCommand("|>", infixLeft(12));
 		
 		/*
-		 * Non-short circuiting condtionals.
+		 * Non-short circuiting conditionals.
 		 */
 		final NonInitialCommand<String, String, TestContext> nonSSRelJoin = infixLeft(13);
 		parser.addNonInitialCommand("and", nonSSRelJoin);
