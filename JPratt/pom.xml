@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>bjc</groupId>
 	<artifactId>JPratt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>JPratt</name>
 	<description>Pratt parser in java</description>
 	<build>
@@ -13,8 +13,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.17</source>
+					<target>1.17</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>bjc</groupId>
 			<artifactId>BJC-Utils2</artifactId>
-			<version>1.0.0</version>
+			<version>2.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
