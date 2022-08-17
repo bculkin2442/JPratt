@@ -4,6 +4,8 @@ import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.commands.AbstractInitialCommand;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
@@ -45,9 +47,12 @@ public class TransformingInitialCommand<K, V, C> extends AbstractInitialCommand<
 	}
 
 	@Override
-	protected Tree<Token<K, V>> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
+	protected CommandResult<K, V> intNullDenotation(final Token<K, V> operator, final ParserContext<K, V, C> ctx)
 			throws ParserException {
-		return transfrm.apply(internl.denote(operator, ctx));
+		CommandResult<K,V> result = internl.denote(operator, ctx);
+		if (result.status != Status.SUCCESS) return result;
+		
+		return CommandResult.success(transfrm.apply(result.success()));
 	}
 
 }

@@ -3,6 +3,8 @@ package bjc.pratt.blocks;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.ParserContext;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
@@ -45,13 +47,15 @@ public class TriggeredParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+	public CommandResult<K, V> parse(final ParserContext<K, V, C> ctx) throws ParserException {
 		final C newState = onEntr.apply(ctx.state);
 
 		final ParserContext<K, V, C> newCtx = new ParserContext<>(ctx.tokens, ctx.parse, newState);
 
-		final Tree<Token<K, V>> res = sourc.parse(newCtx);
+		final CommandResult<K,V> res = sourc.parse(newCtx);
 
+		if (res.status != Status.SUCCESS) return res;
+		
 		ctx.state = onExt.apply(newState);
 
 		return res;

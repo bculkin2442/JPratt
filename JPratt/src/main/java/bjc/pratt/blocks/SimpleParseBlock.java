@@ -3,6 +3,8 @@ package bjc.pratt.blocks;
 import java.util.function.Predicate;
 
 import bjc.pratt.ParserContext;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
@@ -49,15 +51,18 @@ public class SimpleParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
-		final Tree<Token<K, V>> res = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
-
+	public CommandResult<K, V> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+		final CommandResult<K,V> resBlock = ctx.parse.parseExpression(pow, ctx.tokens, ctx.state, false);
+		if (resBlock.status != Status.SUCCESS) return resBlock;
+		
+		Tree<Token<K, V>> res = resBlock.success();
 		if(term != null) {
 			ctx.tokens.expect(term);
 		}
 
-		if(validatr == null || validatr.test(res)) return res;
+		if(validatr == null || validatr.test(res)) return CommandResult.success(res);
 
+		// TODO: Figure out the right way to handle error context w/ CommandResult
 		throw new ParserException("Block failed validation");
 	}
 

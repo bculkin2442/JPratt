@@ -4,6 +4,8 @@ import static bjc.pratt.tokens.StringToken.litToken;
 
 import java.util.Iterator;
 
+import bjc.data.MarkListIterator;
+
 /**
  * Simple implementation of token stream for strings.
  *
@@ -14,8 +16,8 @@ import java.util.Iterator;
  *
  */
 public class StringTokenStream extends TokenStream<String, String> {
-	private final Iterator<Token<String, String>> iter;
-
+	private final MarkListIterator<Token<String, String>> iter;
+	
 	private Token<String, String> curr;
 
 	/**
@@ -26,8 +28,7 @@ public class StringTokenStream extends TokenStream<String, String> {
 	 *
 	 */
 	public StringTokenStream(final Iterator<Token<String, String>> itr) {
-		iter = itr;
-
+		iter = new MarkListIterator<>(itr);
 	}
 
 	@Override
@@ -49,5 +50,30 @@ public class StringTokenStream extends TokenStream<String, String> {
 	@Override
 	public boolean hasNext() {
 		return iter.hasNext();
+	}
+	
+	@Override
+	public void mark() {
+		iter.mark();
+	}
+	
+	@Override
+	public void commit() {
+		iter.commit();
+		
+		if (!iter.hasMark()) {
+			// No marks outstanding; we can release the previous state
+			iter.reset();
+		}
+	}
+	
+	@Override
+	public void rollback() {
+		iter.rollback();
+	}
+	
+	@Override
+	public boolean hasMark() {
+ 		return iter.hasMark();
 	}
 }

@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 import bjc.pratt.ParserContext;
 import bjc.pratt.PrattParser;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
 import bjc.data.Tree;
@@ -15,23 +17,17 @@ import bjc.utils.parserutils.ParserException;
  *
  * @author bjculkin
  *
- * @param <K>
- *        The key type of the outer tokens.
+ * @param <K>  The key type of the outer tokens.
  *
- * @param <V>
- *        The value type of the outer tokens.
+ * @param <V>  The value type of the outer tokens.
  *
- * @param <C>
- *        The state type of the outer parser.
+ * @param <C>  The state type of the outer parser.
  *
- * @param <K2>
- *        The key type of the inner tokens.
+ * @param <K2> The key type of the inner tokens.
  *
- * @param <V2>
- *        The value type of the inner tokens.
+ * @param <V2> The value type of the inner tokens.
  *
- * @param <C2>
- *        The state type of the outer parser.
+ * @param <C2> The state type of the outer parser.
  */
 public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, C> {
 	private final PrattParser<K2, V2, C2> innr;
@@ -46,12 +42,14 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 	/**
 	 * Create a new grammar parser block.
 	 *
-	 * @param inner The inner grammar to parse.
-	 * @param precedence The precedence of the expression to parse.
-	 * @param isStatement Is the expression being parsed in statement context?
-	 * @param tokenTransform Function to transform to the new token type.
-	 * @param stateTransform Function to toggle between state types.
-	 * @param expressionTransform Function to transform  back to the normal token type.
+	 * @param inner               The inner grammar to parse.
+	 * @param precedence          The precedence of the expression to parse.
+	 * @param isStatement         Is the expression being parsed in statement
+	 *                            context?
+	 * @param tokenTransform      Function to transform to the new token type.
+	 * @param stateTransform      Function to toggle between state types.
+	 * @param expressionTransform Function to transform back to the normal token
+	 *                            type.
 	 */
 	public GrammarParseBlock(final PrattParser<K2, V2, C2> inner, final int precedence, final boolean isStatement,
 			final Function<TokenStream<K, V>, TokenStream<K2, V2>> tokenTransform,
@@ -66,16 +64,27 @@ public class GrammarParseBlock<K, V, C, K2, V2, C2> implements ParseBlock<K, V, 
 	}
 
 	@Override
-	public Tree<Token<K, V>> parse(final ParserContext<K, V, C> ctx) throws ParserException {
+	public CommandResult<K, V> parse(final ParserContext<K, V, C> ctx) throws ParserException {
 		final C2 newState = stteTransform.to(ctx.state);
 
 		final TokenStream<K2, V2> newTokens = tkenTransform.apply(ctx.tokens);
 
-		final Tree<Token<K2, V2>> expression = innr.parseExpression(prcedence, newTokens, newState,
-				isStatemnt);
+		final CommandResult<K2, V2> res = innr.parseExpression(prcedence, newTokens, newState, isStatemnt);
+		switch (res.status) {
+		case SUCCESS:
+			break;
+		case FAIL:
+			return CommandResult.fail();
+		case BACKTRACK:
+			return CommandResult.backtrack();
+		default:
+			throw new IllegalStateException("Unhandled status " + res.status);
+		}
+
+		Tree<Token<K2, V2>> expression = res.success();
 
 		ctx.state = stteTransform.from(newState);
 
-		return xpressionTransform.apply(expression);
+		return CommandResult.success(xpressionTransform.apply(expression));
 	}
 }

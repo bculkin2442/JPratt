@@ -26,6 +26,8 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 
 import bjc.pratt.PrattParser;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.commands.NonInitialCommand;
 import bjc.pratt.tokens.StringToken;
@@ -49,7 +51,7 @@ import bjc.utils.parserutils.splitter.TokenSplitter;
 public class PrattParserTest {
 	private final static Set<String> ops;
 	private final static Set<String> reserved;
-	
+
 	static {
 		/*
 		 * Setup operator hash.
@@ -61,9 +63,9 @@ public class PrattParserTest {
 		ops.add("!!!");
 
 		ops.add(":=");
-		
+
 		ops.addAll(Arrays.asList("|>", "[|]"));
-		
+
 		ops.addAll(Arrays.asList("->", "=>"));
 		ops.addAll(Arrays.asList("||", "&&"));
 		ops.addAll(Arrays.asList("<=", ">="));
@@ -76,7 +78,7 @@ public class PrattParserTest {
 		ops.addAll(Arrays.asList("(", ")"));
 		ops.addAll(Arrays.asList("[", "]"));
 		ops.addAll(Arrays.asList("{", "}"));
-		
+
 		reserved = new LinkedHashSet<>();
 		reserved.addAll(Arrays.asList("if", "then", "else"));
 		reserved.addAll(Arrays.asList("and", "or"));
@@ -86,23 +88,23 @@ public class PrattParserTest {
 		reserved.addAll(Arrays.asList("try", "throw", "catch", "finally"));
 		reserved.add("var");
 	}
+
 	/**
 	 * Main method.
 	 *
-	 * @param args
-	 *            Unused CLI arguments.
+	 * @param args Unused CLI arguments.
 	 */
 	public static void main(final String[] args) {
 		final ConfigurableTokenSplitter lo = new ConfigurableTokenSplitter(true);
 
 		lo.addSimpleDelimiters(":=");
-		
+
 		lo.addSimpleDelimiters("|>", "[|]");
-		
+
 		lo.addSimpleDelimiters("->, =>");
 		lo.addSimpleDelimiters("||", "&&");
 		lo.addSimpleDelimiters("<=", ">=");
-		
+
 		lo.addSimpleDelimiters("\u00B1"); // Unicode plus/minus
 		lo.addSimpleDelimiters(".", ",", ";", ":");
 		lo.addSimpleDelimiters("=", "<", ">");
@@ -142,13 +144,17 @@ public class PrattParserTest {
 				 */
 				tokenStream.next();
 
-				final Tree<Token<String, String>> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
+				final CommandResult<String, String> rawTree = parser.parseExpression(0, tokenStream, ctx, true);
 
-				if (!tokenStream.headIs("(end)")) {
-					System.out.println("\nMultiple expressions on line");
+				if (rawTree.status != Status.SUCCESS) {
+					System.out.println("Command parsing failed.");
+				} else {
+					if (!tokenStream.headIs("(end)")) {
+						System.out.println("\nMultiple expressions on line");
+					}
+
+					System.out.printf("\nParsed expression:\n%s", rawTree.success());
 				}
-
-				System.out.printf("\nParsed expression:\n%s", rawTree);
 			} catch (ParserException pex) {
 				pex.printStackTrace();
 			}
@@ -183,8 +189,8 @@ public class PrattParserTest {
 			}
 
 			String strang = raw.replaceAll("\\.(\\.+)", "$1");
-			
-			if (doSplit) {	
+
+			if (doSplit) {
 				ListEx<String> splitStrangs = split.split(strang);
 				splitStrangs.removeMatching("");
 
@@ -264,7 +270,7 @@ public class PrattParserTest {
 		 * Pipeline operator.
 		 */
 		parser.addNonInitialCommand("|>", infixLeft(12));
-		
+
 		/*
 		 * Non-short circuiting conditionals.
 		 */
@@ -293,7 +299,7 @@ public class PrattParserTest {
 		 * Range operator.
 		 */
 		parser.addNonInitialCommand("[|]", infixNon(18));
-		
+
 		/*
 		 * Add/subtracting operators.
 		 */

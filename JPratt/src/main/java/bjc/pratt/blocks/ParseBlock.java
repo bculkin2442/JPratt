@@ -1,6 +1,7 @@
 package bjc.pratt.blocks;
 
 import bjc.pratt.ParserContext;
+import bjc.pratt.commands.CommandResult;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
@@ -34,6 +35,5 @@ public interface ParseBlock<K, V, C> {
 	 *         If something goes wrong during parsing, or the block fails
 	 *         validation.
 	 */
-	Tree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException;
-
+	CommandResult<K, V> parse(ParserContext<K, V, C> ctx) throws ParserException;
 }

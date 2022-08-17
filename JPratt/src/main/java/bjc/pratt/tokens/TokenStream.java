@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import bjc.utils.funcutils.StringUtils;
-import bjc.utils.parserutils.ParserException;
 
 /**
  * A stream of tokens.
@@ -21,26 +20,6 @@ import bjc.utils.parserutils.ParserException;
  */
 public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	/**
-	 * The exception thrown when an expectation fails.
-	 *
-	 * @author EVE
-	 *
-	 */
-	public static class ExpectationException extends ParserException {
-		private static final long serialVersionUID = 4299299480127680805L;
-
-		/**
-		 * Create a new exception with the specified message.
-		 *
-		 * @param msg
-		 *        The message of the exception.
-		 */
-		public ExpectationException(final String msg) {
-			super(msg);
-		}
-	}
-
-	/**
 	 * Get the current token.
 	 *
 	 * @return The current token.
@@ -54,22 +33,44 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	public abstract boolean hasNext();
 
 	/**
+	 * Place a mark in the current stream, which can be either returned to or abandoned later on.
+	 */
+	public abstract void mark();
+	
+	/**
+	 * Reset the stream to the state it was in when the last mark was taken.
+	 */
+	public abstract void rollback();
+	
+	/**
+	 * Check if the stream has at least one mark.
+	 * 
+	 * @return Whether or not at least one mark exists.
+	 */
+	public abstract boolean hasMark();
+	
+	/**
+	 * Remove the last mark placed into the stream. This prevents returning to it later on.
+	 */
+	public abstract void commit();
+	
+	/**
 	 * Utility method for checking that the next token is one of a specific
 	 * set of types, and then consuming it.
 	 *
 	 * @param expectedKeys
 	 *        The expected values
 	 *
-	 * @throws ExpectationException
+	 * @throws ExpectionNotMet
 	 *         If the token is not one of the expected types.
 	 */
-	public void expect(final Set<K> expectedKeys) throws ExpectationException {
+	public void expect(final Set<K> expectedKeys) throws ExpectionNotMet {
 		final K curKey = current().getKey();
 
 		if(!expectedKeys.contains(curKey)) {
 			final String expectedList = StringUtils.toEnglishList(expectedKeys.toArray(), false);
 
-			throw new ExpectationException("One of '" + expectedList + "' was expected, not " + curKey);
+			throw new ExpectionNotMet("One of '" + expectedList + "' was expected, not " + curKey);
 		}
 
 		next();
@@ -82,12 +83,13 @@ public abstract class TokenStream<K, V> implements Iterator<Token<K, V>> {
 	 * @param expectedKeys
 	 *        The expected values
 	 *
-	 * @throws ExpectationException
+	 * @throws ExpectionNotMet
 	 *         If the token is not one of the expected types.
 	 */
 	@SafeVarargs
-	public final void expect(final K... expectedKeys) throws ExpectationException {
-		expect(new HashSet<>(Arrays.asList(expectedKeys)));
+	public final void expect(final K... expectedKeys) throws ExpectionNotMet {
+		HashSet<K> keys = new HashSet<>(Arrays.asList(expectedKeys));
+		expect(keys);
 	}
 
 	/**

@@ -3,6 +3,8 @@ package bjc.pratt.blocks;
 import java.util.Set;
 
 import bjc.pratt.ParserContext;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
 import bjc.data.SimpleTree;
@@ -51,9 +53,11 @@ public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 	}
 
 	@Override
-	public Tree<Token<K, V>> parse(ParserContext<K, V, C> ctx) throws ParserException {
-		Tree<Token<K, V>> expression = iner.parse(ctx);
-
+	public CommandResult<K, V> parse(ParserContext<K, V, C> ctx) throws ParserException {
+		CommandResult<K,V> resOuter = iner.parse(ctx);
+		if (resOuter.status != Status.SUCCESS) return resOuter;
+		
+		Tree<Token<K, V>> expression = resOuter.success();
 		Token<K, V> currentToken = ctx.tokens.current();
 		if(indicators.contains(currentToken.getKey())) {
 			Tree<Token<K, V>> res = new SimpleTree<>(trm);
@@ -63,16 +67,19 @@ public class ChainParseBlock<K, V, C> implements ParseBlock<K, V, C> {
 				res.addChild(new SimpleTree<>(currentToken));
 				ctx.tokens.next();
 
-				Tree<Token<K, V>> innerExpression = iner.parse(ctx);
+				CommandResult<K,V> resInner = iner.parse(ctx);
+				if (resInner.status != Status.SUCCESS) return resInner;
+				
+				Tree<Token<K, V>> innerExpression = resInner.success();
 				res.addChild(innerExpression);
 
 				currentToken = ctx.tokens.current();
 			}
 
-			return res;
+			return CommandResult.success(res);
 		}
 
-		return expression;
+		return resOuter;
 	}
 
 }

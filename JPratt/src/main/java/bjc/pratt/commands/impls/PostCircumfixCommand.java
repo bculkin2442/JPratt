@@ -3,6 +3,8 @@ package bjc.pratt.commands.impls;
 import bjc.pratt.ParserContext;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.BinaryPostCommand;
+import bjc.pratt.commands.CommandResult;
+import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.data.Tree;
 import bjc.data.SimpleTree;
@@ -50,10 +52,11 @@ public class PostCircumfixCommand<K, V, C> extends BinaryPostCommand<K, V, C> {
 	}
 
 	@Override
-	public Tree<Token<K, V>> denote(final Tree<Token<K, V>> operand, final Token<K, V> operator,
+	public CommandResult<K, V> denote(final Tree<Token<K, V>> operand, final Token<K, V> operator,
 			final ParserContext<K, V, C> ctx) throws ParserException {
-		final Tree<Token<K, V>> inside = innerBlock.parse(ctx);
-
-		return new SimpleTree<>(mark, operand, inside);
+		final CommandResult<K,V> insideRes = innerBlock.parse(ctx);
+		if (insideRes.status != Status.SUCCESS) return insideRes;
+		Tree<Token<K, V>> inside = insideRes.success();
+		return CommandResult.success(new SimpleTree<>(mark, operand, inside));
 	}
 }

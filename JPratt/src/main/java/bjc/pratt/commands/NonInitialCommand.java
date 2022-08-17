@@ -32,12 +32,12 @@ public abstract class NonInitialCommand<K, V, C> {
 	 * @param ctx
 	 *        The state needed for commands.
 	 *
-	 * @return The tree this command forms.
+	 * @return The result of executing the command.
 	 *
 	 * @throws ParserException
 	 *         If something went wrong during parsing.
 	 */
-	public abstract Tree<Token<K, V>> denote(Tree<Token<K, V>> operand, Token<K, V> operator,
+	public abstract CommandResult<K, V> denote(Tree<Token<K, V>> operand, Token<K, V> operator,
 			ParserContext<K, V, C> ctx) throws ParserException;
 
 	/**

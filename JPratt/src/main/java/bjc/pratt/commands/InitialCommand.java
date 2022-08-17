@@ -31,10 +31,10 @@ public interface InitialCommand<K, V, C> {
 	 * @param ctx
 	 *        The context for the command.
 	 *
-	 * @return The tree for this command.
+	 * @return The result of executing the command.
 	 *
 	 * @throws ParserException
 	 *         If something goes wrong during parsing.
 	 */
-	Tree<Token<K, V>> denote(Token<K, V> operator, ParserContext<K, V, C> ctx) throws ParserException;
+	CommandResult<K, V> denote(Token<K, V> operator, ParserContext<K, V, C> ctx) throws ParserException;
 }
