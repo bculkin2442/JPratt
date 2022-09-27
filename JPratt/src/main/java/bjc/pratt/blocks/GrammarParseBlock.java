@@ -5,7 +5,6 @@ import java.util.function.Function;
 import bjc.pratt.ParserContext;
 import bjc.pratt.PrattParser;
 import bjc.pratt.commands.CommandResult;
-import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.pratt.tokens.TokenStream;
 import bjc.data.Tree;

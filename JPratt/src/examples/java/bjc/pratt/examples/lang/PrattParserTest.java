@@ -33,7 +33,6 @@ import bjc.pratt.commands.NonInitialCommand;
 import bjc.pratt.tokens.StringToken;
 import bjc.pratt.tokens.StringTokenStream;
 import bjc.pratt.tokens.Token;
-import bjc.data.Tree;
 import bjc.data.TransformIterator;
 import bjc.funcdata.ListEx;
 import bjc.utils.parserutils.ParserException;

@@ -9,11 +9,26 @@ import bjc.pratt.commands.CommandResult.Status;
 import bjc.pratt.tokens.Token;
 import bjc.utils.parserutils.ParserException;
 
+/**
+ * Represents a 'panfix' command, one where the operator is repeated prefix, infix and postfix.
+ * @author bjcul
+ *
+ * @param <K> The key type of the token
+ * @param <V> The value type of the token
+ * @param <C> The context type of the parser
+ */
 public final class PanfixCommand<K, V, C> implements InitialCommand<K, V, C> {
 	private final Token<K, V> marker;
 	private final K term;
 	private final int precedence;
 
+	/**
+	 * Create a new panfix command.
+	 * 
+	 * @param marker The marker token.
+	 * @param term The value to use as the root of the result-tree
+	 * @param precedence The precedence for this command
+	 */
 	public PanfixCommand(Token<K, V> marker, K term, int precedence) {
 		this.marker = marker;
 		this.term = term;

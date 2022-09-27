@@ -5,7 +5,6 @@ import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.AbstractInitialCommand;
 import bjc.pratt.commands.CommandResult;
 import bjc.pratt.tokens.Token;
-import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**

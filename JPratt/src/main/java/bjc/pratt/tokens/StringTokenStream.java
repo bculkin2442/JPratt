@@ -33,6 +33,9 @@ public class StringTokenStream extends TokenStream<String, String> {
 
 	@Override
 	public Token<String, String> current() {
+		// Prime stream if necessary
+		if (curr == null)
+			return next();
 		return curr;
 	}
 
@@ -70,6 +73,8 @@ public class StringTokenStream extends TokenStream<String, String> {
 	@Override
 	public void rollback() {
 		iter.rollback();
+		
+		curr = iter.current();
 	}
 	
 	@Override

@@ -4,7 +4,6 @@ import bjc.pratt.ParserContext;
 import bjc.pratt.commands.CommandResult;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.data.Tree;
 import bjc.utils.parserutils.ParserException;
 
 /**

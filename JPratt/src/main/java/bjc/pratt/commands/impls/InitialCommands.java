@@ -9,8 +9,6 @@ import java.util.function.UnaryOperator;
 import bjc.pratt.blocks.ParseBlock;
 import bjc.pratt.commands.InitialCommand;
 import bjc.pratt.tokens.Token;
-import bjc.utils.parserutils.ParserException;
-import bjc.data.SimpleTree;
 import bjc.data.Tree;
 
 /**
@@ -211,6 +209,6 @@ public class InitialCommands {
 	 * @return A command that implements a panfix operator
 	 */
 	public static <K, V, C> InitialCommand<K, V, C> panfix(final int precedence, final K term, final Token<K, V> marker) {
-		return new PanfixCommand<K, V, C>(marker, term, precedence);
+		return new PanfixCommand<>(marker, term, precedence);
 	}
 }
